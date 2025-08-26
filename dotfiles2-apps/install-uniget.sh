@@ -1,0 +1,1 @@
+winget install --exact --id MartiCliment.UniGetUI --source winget

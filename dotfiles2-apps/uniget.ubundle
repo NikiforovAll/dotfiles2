@@ -1,0 +1,294 @@
+{
+  "export_version": 3,
+  "packages": [
+    {
+      "Id": "7zip.7zip",
+      "Name": "7-Zip",
+      "Version": "24.08",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "9WZDNCRDMDM3",
+      "Name": "NuGet Package Explorer",
+      "Version": "6.2.19.0",
+      "Source": "msstore",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Adobe.Acrobat.Reader.64-bit",
+      "Name": "Adobe Acrobat Reader (64-bit)",
+      "Version": "25.001.20630",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Amazon.AWSCLI",
+      "Name": "AWS Command Line Interface",
+      "Version": "2.15.49.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Anthropic.Claude",
+      "Name": "Claude",
+      "Version": "0.12.112",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Bitwarden.Bitwarden",
+      "Name": "Bitwarden",
+      "Version": "2025.7.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Bitwarden.CLI",
+      "Name": "Bitwarden CLI",
+      "Version": "2025.8.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "DevToys-app.DevToys",
+      "Name": "DevToys",
+      "Version": "2.0-preview.8",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Dropbox.Dropbox",
+      "Name": "Dropbox",
+      "Version": "231.3.5638",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Git.Git",
+      "Name": "Git",
+      "Version": "2.47.1",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Google.Chrome.EXE",
+      "Name": "Google Chrome (EXE)",
+      "Version": "139.0.7258.139",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "JanDeDobbeleer.OhMyPosh",
+      "Name": "Oh My Posh",
+      "Version": "24.8.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "JesseDuffield.Lazydocker",
+      "Name": "Lazydocker",
+      "Version": "0.24.1",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "JesseDuffield.lazygit",
+      "Name": "lazygit",
+      "Version": "0.44.1",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Microsoft.Azd",
+      "Name": "Azure Developer CLI",
+      "Version": "1.18.300",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Microsoft.Azure.StorageExplorer",
+      "Name": "Microsoft Azure Storage Explorer",
+      "Version": "1.37.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Microsoft.PerfView",
+      "Name": "PerfView",
+      "Version": "3.1.19",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Microsoft.PowerToys",
+      "Name": "PowerToys",
+      "Version": "0.91.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Microsoft.Teams",
+      "Name": "Microsoft Teams",
+      "Version": "25198.1112.3855.2900",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Microsoft.VisualStudioCode",
+      "Name": "Microsoft Visual Studio Code",
+      "Version": "1.103.2",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Microsoft.WindowsTerminal",
+      "Name": "Windows Terminal",
+      "Version": "1.22.12111.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Notion.Notion",
+      "Name": "Notion",
+      "Version": "4.18.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "OpenJS.NodeJS.LTS",
+      "Name": "Node.js (LTS)",
+      "Version": "20.18.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Python.Python.3.12",
+      "Name": "Python 3.12",
+      "Version": "3.12.7",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "RedHat.Podman",
+      "Name": "Podman",
+      "Version": "5.4.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "RedHat.Podman-Desktop",
+      "Name": "Podman Desktop",
+      "Version": "1.17.1",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Spotify.Spotify",
+      "Name": "Spotify",
+      "Version": "1.2.69.449.gfda8591a",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Telegram.TelegramDesktop",
+      "Name": "Telegram Desktop",
+      "Version": "6.0.2",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Telerik.Fiddler.Classic",
+      "Name": "Progress Telerik Fiddler Classic",
+      "Version": "5.0.20253.3311",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "XAMPPRocky.Tokei",
+      "Name": "tokei",
+      "Version": "12.1.2",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Zen-Team.Zen-Browser",
+      "Name": "Zen Browser",
+      "Version": "1.14.11b",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "calibre.calibre",
+      "Name": "calibre",
+      "Version": "8.9.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "jqlang.jq",
+      "Name": "jq",
+      "Version": "1.7.1",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "junegunn.fzf",
+      "Name": "fzf",
+      "Version": "0.55.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "lencx.ChatGPT",
+      "Name": "ChatGPT",
+      "Version": "1.1.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "lsd-rs.lsd",
+      "Name": "LSDeluxe",
+      "Version": "1.1.5",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "nerd-fonts-Meslo",
+      "Name": "Nerd Fonts Meslo",
+      "Version": "3.4.0",
+      "Source": "community",
+      "ManagerName": "Chocolatey"
+    },
+    {
+      "Id": "sharkdp.bat",
+      "Name": "bat",
+      "Version": "0.25.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "sharkdp.fd",
+      "Name": "fd",
+      "Version": "10.2.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "twpayne.chezmoi",
+      "Name": "chezmoi",
+      "Version": "2.64.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "variar.klogg",
+      "Name": "klogg",
+      "Version": "22.06.0.1289",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    }
+  ],
+  "incompatible_packages_info": "Incompatible packages cannot be installed from UniGetUI, either because they came from a local source (for example Local PC) or because the package manager was unavailable. Nevertheless, they have been listed here for logging purposes.",
+  "incompatible_packages": []
+}
