@@ -46,4 +46,4 @@ PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
 eval "$(oh-my-posh init bash --config ~/.nikiforovall.omp.json)"
 
 ## alternatively
-export PS1='\[\033[36m\]\w\[\033[33m\]$(__git_ps1 " (%s)")\[\033[0m\]\$ '
+# export PS1='\[\033[36m\]\w\[\033[33m\]$(__git_ps1 " (%s)")\[\033[0m\]\$ '

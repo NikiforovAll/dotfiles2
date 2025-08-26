@@ -1,8 +1,7 @@
 {
     "$help": "https://aka.ms/terminal-documentation",
     "$schema": "https://raw.githubusercontent.com/microsoft/terminal/main/doc/cascadia/profiles.schema.json",
-    "actions": 
-    [
+    "actions": [
         {
             "command": "toggleFocusMode",
             "id": "User.toggleFocusMode"
@@ -12,8 +11,7 @@
             "id": "User.find"
         },
         {
-            "command": 
-            {
+            "command": {
                 "action": "splitPane",
                 "split": "auto",
                 "splitMode": "duplicate"
@@ -21,15 +19,13 @@
             "id": "User.splitPane.A6751878"
         },
         {
-            "command": 
-            {
+            "command": {
                 "action": "commandPalette"
             },
             "id": "User.commandPalette.D3F0B923"
         },
         {
-            "command": 
-            {
+            "command": {
                 "action": "copy",
                 "singleLine": false
             },
@@ -46,8 +42,7 @@
     "defaultProfile": "{14ad203f-52cc-4110-90d6-d96e0f41b64d}",
     "firstWindowPreference": "defaultProfile",
     "focusFollowMouse": true,
-    "keybindings": 
-    [
+    "keybindings": [
         {
             "id": "User.commandPalette.D3F0B923",
             "keys": "ctrl+shift+p"
@@ -75,32 +70,26 @@
     ],
     "launchMode": "maximized",
     "minimizeToNotificationArea": false,
-    "newTabMenu": 
-    [
+    "newTabMenu": [
         {
             "type": "remainingProfiles"
         }
     ],
-    "profiles": 
-    {
-        "defaults": 
-        {
+    "profiles": {
+        "defaults": {
             "colorScheme": "vscode-windows-terminal-theme",
-            "font": 
-            {
+            "font": {
                 "face": "MesloLGM Nerd Font",
                 "size": 13
             }
         },
-        "list": 
-        [
+        "list": [
             {
                 "closeOnExit": "graceful",
                 "commandline": "C:/Program Files/Git/bin/bash.exe --login",
                 "cursorColor": "#FFFFFF",
                 "cursorShape": "bar",
-                "font": 
-                {
+                "font": {
                     "face": "MesloLGM Nerd Font",
                     "size": 13
                 },
@@ -129,8 +118,7 @@
             }
         ]
     },
-    "schemes": 
-    [
+    "schemes": [
         {
             "background": "#101216",
             "black": "#000000",
