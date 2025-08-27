@@ -1,5 +1,6 @@
-npm install --global diff-so-fancy
+npm install -g diff-so-fancy
+npm install -g @anthropic-ai/claude-code
 
-dotnet tool install --global csharpier
-dotnet tool install --global dotnet-outdated-tool
+dotnet tool install -g csharpier
+dotnet tool install -g dotnet-outdated-tool
 dotnet tool install -g WinDebloat

@@ -30,6 +30,8 @@ function fzfp() {
     echo "$PROJECTS" | fzf --preview "bat --style=numbers --color=always --line-range :500 {} -l xml"
 }
 
+alias fzfd='fd --type d --strip-cwd-prefix | fzf'
+
 ######
 # history
 ######

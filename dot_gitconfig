@@ -74,15 +74,9 @@
     lll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
     changes = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
     short = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
-    simple = log --pretty=format:\" * %s\"
-    shortnocolor = log --pretty=format:\"%h %cr %cn %s\"
     overview = log --all --oneline --no-merges
     changelog = "!sh -c \"git log --oneline --no-merges $1..HEAD\" -"
     filelog = log -u # show changes to a file
-    # Pretty log of commits. Supports options of git log
-    # https://www.kernel.org/pub/software/scm/git/docs/git-log.html#_pretty_formats
-    log-pretty = log --graph --decorate --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an - %aE>%Creset' --abbrev-commit
-    # Pretty log of commits from origin/main
     log-origin-main = log --decorate --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an - %aE>%Creset' --abbrev-commit --no-merges origin/main
     # last commit
     last = log -1 HEAD
