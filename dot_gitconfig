@@ -142,6 +142,8 @@
 
 [credential "https://github.com"]
     username = nikiforovall
+	helper = 
+	helper = !'C:\\Program Files\\GitHub CLI\\gh.exe' auth git-credential
 [credential]
     helper = store
 
@@ -166,3 +168,6 @@
 # gist: is a shofthand for git://gist.github.com/
 [url "git://gist.github.com/"]
     insteadOf = "gist:"
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !'C:\\Program Files\\GitHub CLI\\gh.exe' auth git-credential

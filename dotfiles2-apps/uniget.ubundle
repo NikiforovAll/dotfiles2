@@ -72,6 +72,13 @@
       "ManagerName": "Winget"
     },
     {
+      "Id": "GitHub.cli",
+      "Name": "GitHub CLI",
+      "Version": "2.78.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
       "Id": "Google.Chrome.EXE",
       "Name": "Google Chrome (EXE)",
       "Version": "139.0.7258.139",
@@ -226,6 +233,20 @@
       "ManagerName": "Winget"
     },
     {
+      "Id": "csharpier",
+      "Name": "Csharpier",
+      "Version": "1.1.2",
+      "Source": "nuget.org",
+      "ManagerName": ".NET Tool"
+    },
+    {
+      "Id": "dotnet-outdated-tool",
+      "Name": "Dotnet Outdated Tool",
+      "Version": "4.6.8",
+      "Source": "nuget.org",
+      "ManagerName": ".NET Tool"
+    },
+    {
       "Id": "jqlang.jq",
       "Name": "jq",
       "Version": "1.7.1",
@@ -287,6 +308,13 @@
       "Version": "22.06.0.1289",
       "Source": "winget",
       "ManagerName": "Winget"
+    },
+    {
+      "Id": "windebloat",
+      "Name": "Windebloat",
+      "Version": "1.12.0",
+      "Source": "nuget.org",
+      "ManagerName": ".NET Tool"
     }
   ],
   "incompatible_packages_info": "Incompatible packages cannot be installed from UniGetUI, either because they came from a local source (for example Local PC) or because the package manager was unavailable. Nevertheless, they have been listed here for logging purposes.",
