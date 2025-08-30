@@ -58,6 +58,13 @@
       "ManagerName": "Winget"
     },
     {
+      "Id": "Doist.Todoist",
+      "Name": "Todoist",
+      "Version": "9.19.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
       "Id": "Dropbox.Dropbox",
       "Name": "Dropbox",
       "Version": "231.3.5638",

@@ -1,5 +1,9 @@
 # Windows Dotfiles
 
 ```bash
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply https://github.com/NikiforovAll/dotfiles2
+winget install twpayne.chezmoi --source winget
+```
+
+```bash
+chezmoi -- init --apply https://github.com/NikiforovAll/dotfiles2
 ```
