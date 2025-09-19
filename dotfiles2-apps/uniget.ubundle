@@ -128,6 +128,13 @@
       "ManagerName": "Winget"
     },
     {
+      "Id": "Microsoft.AzureCLI",
+      "Name": "Microsoft Azure CLI",
+      "Version": "2.76.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
       "Id": "Microsoft.PerfView",
       "Name": "PerfView",
       "Version": "3.1.19",
@@ -166,6 +173,13 @@
       "Id": "Notion.Notion",
       "Name": "Notion",
       "Version": "4.18.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Obsidian.Obsidian",
+      "Name": "Obsidian",
+      "Version": "1.9.12",
       "Source": "winget",
       "ManagerName": "Winget"
     },
@@ -299,6 +313,13 @@
       "Id": "sharkdp.fd",
       "Name": "fd",
       "Version": "10.2.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "splode.pomotroid",
+      "Name": "Pomotroid",
+      "Version": "0.13.0",
       "Source": "winget",
       "ManagerName": "Winget"
     },

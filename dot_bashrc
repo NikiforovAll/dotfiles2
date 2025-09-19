@@ -1,5 +1,5 @@
 alias ls='lsd'
-
+alias d=dotnet
 ######
 # fzf
 ######
