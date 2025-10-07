@@ -1,5 +1,17 @@
 alias ls='lsd'
 alias d=dotnet
+alias cc=claude
+alias c=code
+alias bashrc='code ~/.bashrc'
+alias tm='task-master'
+
+######
+# git
+######
+if [ -f ~/.bashrc_git ]; then
+    source ~/.bashrc_git
+fi
+
 ######
 # fzf
 ######
@@ -10,12 +22,12 @@ eval "$(fzf --bash)"
 export FZF_CTRL_T_OPTS="
     --walker-skip .git,node_modules,target
     --preview 'bat -n --color=always {}'
-    --preview-window=right,60%
+    --preview-window=right,80%
     --height 70%
     --bind 'ctrl-/:change-preview-window(down|)'"
 
 # CTRL-Y to copy the command into clipboard using pbcopy
-export FZF_CTRL_R_OPTS="
+export FZF_CTRL_R_OPTS=" 
     --bind 'ctrl-y:execute-silent(echo -n {2..} | clip)+abort'
     --color header:italic
     --header 'Press CTRL-Y to copy command into clipboard'"
@@ -45,7 +57,7 @@ PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
 ######
 # https://ohmyposh.dev/docs/
 
-eval "$(oh-my-posh init bash --config ~/.nikiforovall.omp.json)"
+eval "$(oh-my-posh init bash --config ~/.nikiforovall.omp3.json)"
 
 ## alternatively
 # export PS1='\[\033[36m\]\w\[\033[33m\]$(__git_ps1 " (%s)")\[\033[0m\]\$ '
