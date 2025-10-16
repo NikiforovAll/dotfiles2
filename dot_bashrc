@@ -1,9 +1,12 @@
 alias ls='lsd'
 alias d=dotnet
 alias cc=claude
+alias ccsp='claude --dangerously-skip-permissions'
 alias c=code
 alias bashrc='code ~/.bashrc'
 alias tm='task-master'
+alias lg='lazygit'
+alias ld='lazydocker'
 
 ######
 # git
