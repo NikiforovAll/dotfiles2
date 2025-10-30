@@ -113,7 +113,8 @@
     pager = diff-so-fancy | less --tabs=4 -RFX
     ignorecase = true
     sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
-    excludesfile = C:\\Users\\Oleksii_Nikiforov\\.gitignore
+    excludesfile = "~/.gitignore"
+	longpaths = true
 [include]
     # Load local configs.
     # https://git-scm.com/docs/git-config#_includes

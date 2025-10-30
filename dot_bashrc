@@ -11,8 +11,10 @@ alias ld='lazydocker'
 ######
 # git
 ######
-if [ -f ~/.bashrc_git ]; then
-    source ~/.bashrc_git
+if [[ "$-" = *i* ]]; then
+    if [ -f ~/.bashrc_git ]; then
+        source ~/.bashrc_git
+    fi
 fi
 
 ######
