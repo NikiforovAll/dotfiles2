@@ -7,6 +7,7 @@ alias bashrc='code ~/.bashrc'
 alias tm='task-master'
 alias lg='lazygit'
 alias ld='lazydocker'
+alias g='git'
 
 #####
 # z

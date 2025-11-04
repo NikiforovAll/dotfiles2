@@ -9,12 +9,14 @@ is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1
 }
 
+# Git files
 gitf() {
   is_in_git_repo &&
     git -c color.status=always status --short |
     fzf --height 40% -m --ansi --nth 2..,.. | awk '{print $2}'
 }
 
+# Git branches
 gitb() {
   is_in_git_repo &&
     git branch -vv --color=always | grep -v '/HEAD\s' |
@@ -22,6 +24,7 @@ gitb() {
     sed 's#^remotes/[^/]*/##'
 }
 
+# Git branches including remote branches
 gitbr() {
   is_in_git_repo &&
     git branch -a -vv --color=always | grep -v '/HEAD\s' |
@@ -29,22 +32,35 @@ gitbr() {
     sed 's#^remotes/[^/]*/##'
 }
 
+# Git tags
 gitt() {
   is_in_git_repo &&
     git tag --sort -version:refname |
     fzf --height 40% --multi
 }
 
+# Git commit hashes
 gith() {
   is_in_git_repo &&
     git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" --graph |
     fzf --height 40% --ansi --no-sort --reverse --multi | grep -o '[a-f0-9]\{7,\}'
 }
 
+# Git remotes
 gitr() {
   is_in_git_repo &&
     git remote -v | awk '{print $1 " " $2}' | uniq |
     fzf --height 40% --tac | awk '{print $1}'
+}
+
+# Git Worktrees
+gitw() {
+  is_in_git_repo &&
+    git worktree list --porcelain |
+    grep '^worktree ' |
+    cut -d' ' -f2- |
+    fzf --height 40% --multi |
+    xargs -I {} basename {}
 }
 
 # Git keybindings
@@ -56,4 +72,5 @@ then
   bind '"\C-g\C-t": "$(gitt)\e\C-e\er"'
   bind '"\C-g\C-h": "$(gith)\e\C-e\er"'
   bind '"\C-g\C-r": "$(gitr)\e\C-e\er"'
+  bind '"\C-g\C-w": "$(gitw)\e\C-e\er"'
 fi
