@@ -8,6 +8,12 @@ alias tm='task-master'
 alias lg='lazygit'
 alias ld='lazydocker'
 
+#####
+# z
+#####
+
+eval "$(zoxide init bash)"
+
 ######
 # git
 ######
