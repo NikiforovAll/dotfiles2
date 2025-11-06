@@ -101,8 +101,8 @@
 	wtr = "!f() { git worktree remove \"../$1\"; }; f"
 	wtl = "!f() { git worktree list; }; f"
 [diff]
-    tool = default-difftool
-[difftool "default-difftool"]
+    tool = vscode
+[difftool "vscode"]
     cmd = code --wait --diff $LOCAL $REMOTE
 [merge]
     tool = code
