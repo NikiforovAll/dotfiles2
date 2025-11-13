@@ -8,6 +8,7 @@ alias tm='task-master'
 alias lg='lazygit'
 alias ld='lazydocker'
 alias g='git'
+alias docker='podman'
 
 #####
 # z
