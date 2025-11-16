@@ -37,6 +37,13 @@
       "ManagerName": "Winget"
     },
     {
+      "Id": "BurntSushi.ripgrep.MSVC",
+      "Name": "RipGrep MSVC",
+      "Version": "15.1.0",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
       "Id": "DevToys-app.DevToys",
       "Name": "DevToys",
       "Version": "2.0-preview.8",
@@ -124,6 +131,13 @@
       "Id": "Microsoft.PerfView",
       "Name": "PerfView",
       "Version": "3.1.19",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
+      "Id": "Microsoft.PowerShell",
+      "Name": "PowerShell",
+      "Version": "7.5.4.0",
       "Source": "winget",
       "ManagerName": "Winget"
     },

@@ -1,2 +1,2 @@
-oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH/multiverse-neon.omp.json" | Invoke-Expression
+oh-my-posh init pwsh --config "~\.nikiforovall.omp.json" | Invoke-Expression
 
