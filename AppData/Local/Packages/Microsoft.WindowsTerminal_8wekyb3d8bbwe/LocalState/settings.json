@@ -99,14 +99,14 @@
             "font": 
             {
                 "face": "MesloLGM Nerd Font",
-                "size": 14
+                "size": 12
             }
         },
         "list": 
         [
             {
                 "closeOnExit": "graceful",
-                "colorScheme": "ayu",
+                "colorScheme": "vscode-windows-terminal-theme",
                 "commandline": "C:/Program Files/Git/bin/bash.exe --login",
                 "cursorColor": "#FFFFFF",
                 "cursorShape": "bar",
