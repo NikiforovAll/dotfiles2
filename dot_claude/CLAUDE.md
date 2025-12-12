@@ -19,5 +19,20 @@ DO NOT add unnecessary comments, comment should explain WHY not WHAT. IMPORTANT:
 IMPORTANT: DO NOT remove existing comments.
 </comments>
 
+<duplicate_plan>
+IMPORTANT: Before starting implementation of the approved plan - ask user if he wants to store it. Use `AskUserQuestion` to ask user.
+If Yes, copy a PLAN to `_plans/<plan_name>` (from `~/.claude/plans`) folder in the root of the repository. 
+Put a footer in the copied plan file with the line: `# This file is a copy of original plan ~/.claude/plans/<plan_name>`.
+</duplicate_plan>
+
+<user_mnemonics>
+Here is an example of user mnemonics, when user specifies:
+
+>bg means - "Run task in the background"
+>pl means - "Run in parallel"
+>td means - "Add task to TODO list using `TodoWrite`
+>aq means - "Ask user a question using `AskUserQuestion`"
+</user_mnemonics>
+
 # Additional Instructions
 Use @CLAUDE.local.md for additional instructions.

@@ -254,6 +254,13 @@
       "ManagerName": "Winget"
     },
     {
+      "Id": "astral-sh.uv",
+      "Name": "uv",
+      "Version": "0.9.17",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
       "Id": "calibre.calibre",
       "Name": "calibre",
       "Version": "8.9.0",
