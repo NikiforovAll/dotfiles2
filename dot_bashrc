@@ -10,6 +10,13 @@ alias ld='lazydocker'
 alias lc='uvx lazyclaude'
 alias g='git'
 alias docker='podman'
+alias wtc='wt -w 0 -d $(pwd) --title "$(basename $(pwd))"'
+
+######
+# editor
+######
+export EDITOR="code --wait"
+export VISUAL="code --wait"
 
 #####
 # z
@@ -75,3 +82,4 @@ eval "$(oh-my-posh init bash --config ~/.nikiforovall.omp3.json)"
 
 ## alternatively
 # export PS1='\[\033[36m\]\w\[\033[33m\]$(__git_ps1 " (%s)")\[\033[0m\]\$ '
+

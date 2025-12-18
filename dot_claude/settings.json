@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(handbook-git-worktree:git-worktree)",
+      "Bash(git worktree list:*)"
+    ],
+    "deny": [],
+    "ask": [
+      "Bash(glab:*)"
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "npx -y ccstatusline@latest",
+    "padding": 0
+  },
+  "enabledPlugins": {
+    "handbook@cc-handbook": true,
+    "handbook-sounds@cc-handbook": true,
+    "handbook-git-worktree@cc-handbook": true,
+    "handbook-structured-plan-mode@cc-handbook": false,
+    "handbook-extras@cc-handbook": false,
+    "dev-browser@dev-browser-marketplace": false,
+    "handbook-nano-banana@cc-handbook": false,
+    "handbook-dotnet@cc-handbook": true,
+    "handbook-context7@cc-handbook": false,
+    "feature-dev@claude-plugins-official": false,
+    "frontend-design@claude-plugins-official": false,
+    "plugin-dev@claude-plugins-official": false,
+    "handbook-microsoft-docs@cc-handbook": false,
+    "handbook-glab@cc-handbook": true
+  }
+}
