@@ -23,6 +23,7 @@ IMPORTANT: DO NOT remove existing comments.
 IMPORTANT: Before starting implementation of the approved plan - ask user if he wants to store it. Use `AskUserQuestion` to ask user.
 If Yes, copy a PLAN to `_plans/<plan_name>` (from `~/.claude/plans`) folder in the root of the repository. 
 Put a footer in the copied plan file with the line: `# This file is a copy of original plan ~/.claude/plans/<plan_name>`.
+Copying existing plan should be the first step in implementation of the plan as `TodoWrite` item.
 </duplicate_plan>
 
 <user_mnemonics>
@@ -33,6 +34,10 @@ Here is an example of user mnemonics, when user specifies:
 >td means - "Add task to TODO list using `TodoWrite`
 >aq means - "Ask user a question using `AskUserQuestion`"
 </user_mnemonics>
+
+<commit_messages>
+Do not mention Claude Code in commit messages. As if it was written by a human developer.
+</commit_messages>
 
 # Additional Instructions
 Use @CLAUDE.local.md for additional instructions.
