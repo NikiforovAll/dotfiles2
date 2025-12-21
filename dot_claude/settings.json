@@ -1,10 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Skill(handbook-git-worktree:git-worktree)",
       "Skill(handbook:skill-creator)",
-      "Bash(git worktree list:*)",
-      "Bash(mkdir:*)"
+      "Skill(handbook-git-worktree:git-worktree)",
+      "Bash(fd:*)",
+      "Bash(rg:*)",
+      "Bash(mkdir:*)",
+      "Bash(git log:*)"
     ],
     "deny": [],
     "ask": [
