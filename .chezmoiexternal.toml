@@ -1,0 +1,4 @@
+[".claude/nikiforovall"]
+type = "git-repo"
+url = "https://github.com/NikiforovAll/private-claude"
+refreshPeriod = "24h"
