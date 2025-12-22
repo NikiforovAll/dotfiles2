@@ -50,10 +50,10 @@ eval "$(fzf --bash)"
 
 # Preview file content using bat (https://github.com/sharkdp/bat)
 export FZF_CTRL_T_OPTS="
-    --walker-skip .git,node_modules,target
+    --walker-skip .git,node_modules,target,bin,obj
     --preview 'bat -n --color=always {}'
     --preview-window=right,80%
-    --height 70%
+    --height 90%
     --bind 'ctrl-/:change-preview-window(down|)'"
 
 # CTRL-Y to copy the command into clipboard using pbcopy
@@ -63,7 +63,7 @@ export FZF_CTRL_R_OPTS="
     --header 'Press CTRL-Y to copy command into clipboard'"
 
 # Print tree structure in the preview window
-export FZF_ALT_C_OPTS="--walker-skip .git,node_modules,target"
+export FZF_ALT_C_OPTS="--walker-skip .git,node_modules,target,bin,obj"
 
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
 
@@ -73,6 +73,21 @@ function fzfp() {
 }
 
 alias fzfd='fd --type d --strip-cwd-prefix | fzf'
+
+rfzf() {
+    fzf --disabled --ansi --query "$*" \
+        --height 90% \
+        --layout reverse \
+        --preview-window 'down,80%,border-top,+{2}-5' \
+        --delimiter : \
+        --bind "start:reload:rg --column --line-number --no-heading --color=always --smart-case -- {q} || true" \
+        --bind "change:reload:rg --column --line-number --no-heading --color=always --smart-case -- {q} || true" \
+        --preview 'bat --style=numbers --color=always --highlight-line {2} {1}' \
+        --bind 'ctrl-/:change-preview-window(right,60%|down,80%|hidden)' \
+        --bind "ctrl-y:execute-silent(echo -n {1}:{2} | clip)" \
+    | cut -d: -f1
+}
+
 
 ######
 # history
