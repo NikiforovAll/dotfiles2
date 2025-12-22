@@ -39,5 +39,6 @@ Here is an example of user mnemonics, when user specifies:
 Do not mention Claude Code in commit messages. As if it was written by a human developer.
 </commit_messages>
 
-# Additional Instructions
-Use @CLAUDE.local.md for additional instructions.
+<windows_path_issues>
+If you experience issues with Update/Write tool, try to use relative file path
+</windows_path_issues>
