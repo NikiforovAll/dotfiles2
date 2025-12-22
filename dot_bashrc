@@ -10,13 +10,22 @@ alias ld='lazydocker'
 alias lc='uvx lazyclaude'
 alias g='git'
 alias docker='podman'
+
+######
+# terminal
+######
 alias wtc='wt -w 0 -d $(pwd) --title "$(basename $(pwd))"'
+
+#update_terminal_title
+utt() {
+    echo -ne "\033]0;$(basename "$PWD")\007"
+}
 
 ######
 # editor
 ######
-export EDITOR="code --wait"
-export VISUAL="code --wait"
+export EDITOR=code
+export VISUAL=code
 
 #####
 # z
