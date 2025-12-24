@@ -1,0 +1,166 @@
+{
+    "globalSettings": {
+        "launchMode": "maximized",
+        "focusFollowMouse": true,
+        "copyOnSelect": false,
+        "copyFormatting": "none",
+        "centerOnLaunch": true,
+        "tabWidthMode": "titleLength",
+        "disableAnimations": true,
+        "minimizeToNotificationArea": false,
+        "showTabsInTitlebar": true,
+        "showTabsFullscreen": true,
+        "showTerminalTitleInTitlebar": true,
+        "useAcrylicInTabRow": false
+    },
+    "profileDefaults": {
+        "colorScheme": "ayu",
+        "snapOnInput": true,
+        "font": {
+            "face": "MesloLGM Nerd Font",
+            "size": 12
+        }
+    },
+    "actions": [
+        {
+            "command": "toggleFocusMode",
+            "id": "User.toggleFocusMode"
+        },
+        {
+            "command": "find",
+            "id": "User.find"
+        },
+        {
+            "command": {
+                "action": "splitPane",
+                "split": "auto",
+                "splitMode": "duplicate"
+            },
+            "id": "User.splitPane.A6751878"
+        },
+        {
+            "command": {
+                "action": "commandPalette"
+            },
+            "id": "User.commandPalette.D3F0B923"
+        },
+        {
+            "command": {
+                "action": "copy",
+                "singleLine": false
+            },
+            "id": "User.copy.644BA8F2"
+        },
+        {
+            "command": "paste",
+            "id": "User.paste"
+        },
+        {
+            "command": "openTabRenamer",
+            "id": "User.openTabRenamer"
+        },
+        {
+            "command": {
+                "action": "moveTab",
+                "window": "new"
+            },
+            "id": "User.moveTab.EA39957B"
+        }
+    ],
+    "keybindings": [
+        {
+            "id": "User.commandPalette.D3F0B923",
+            "keys": "ctrl+shift+p"
+        },
+        {
+            "id": "User.splitPane.A6751878",
+            "keys": "alt+shift+d"
+        },
+        {
+            "id": "User.openTabRenamer",
+            "keys": "shift+f2"
+        },
+        {
+            "id": "User.copy.644BA8F2",
+            "keys": "ctrl+c"
+        },
+        {
+            "id": "User.paste",
+            "keys": "ctrl+v"
+        },
+        {
+            "id": "User.find",
+            "keys": "ctrl+shift+f"
+        },
+        {
+            "id": "User.toggleFocusMode",
+            "keys": "shift+f11"
+        },
+        {
+            "id": "User.moveTab.EA39957B",
+            "keys": "ctrl+alt+shift+n"
+        }
+    ],
+    "schemes": [
+        {
+            "name": "ayu",
+            "background": "#0F1419",
+            "black": "#000000",
+            "blue": "#36A3D9",
+            "brightBlack": "#323232",
+            "brightBlue": "#68D5FF",
+            "brightCyan": "#C7FFFD",
+            "brightGreen": "#EAFE84",
+            "brightPurple": "#FFA3AA",
+            "brightRed": "#FF6565",
+            "brightWhite": "#FFFFFF",
+            "brightYellow": "#FFF779",
+            "cursorColor": "#F29718",
+            "cyan": "#95E6CB",
+            "foreground": "#E6E1CF",
+            "green": "#B8CC52",
+            "purple": "#F07178",
+            "red": "#FF3333",
+            "selectionBackground": "#253340",
+            "white": "#FFFFFF",
+            "yellow": "#E7C547"
+        },
+        {
+            "name": "vscode-windows-terminal-theme",
+            "background": "#232323",
+            "black": "#000000",
+            "blue": "#579BD5",
+            "brightBlack": "#797979",
+            "brightBlue": "#9BDBFE",
+            "brightCyan": "#2BC4E2",
+            "brightGreen": "#1AD69C",
+            "brightPurple": "#DF89DD",
+            "brightRed": "#F6645D",
+            "brightWhite": "#EAEAEA",
+            "brightYellow": "#F6F353",
+            "cursorColor": "#FFFFFF",
+            "cyan": "#00B6D6",
+            "foreground": "#D3D3D3",
+            "green": "#3FC48A",
+            "purple": "#CA5BC8",
+            "red": "#D8473F",
+            "selectionBackground": "#FFFFFF",
+            "white": "#EAEAEA",
+            "yellow": "#D7BA7D"
+        }
+    ],
+    "powerShellProfile": {
+        "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+        "colorScheme": "Ottosson"
+    },
+    "gitBashProfile": {
+        "closeOnExit": "graceful",
+        "commandline": "C:/Program Files/Git/bin/bash.exe --login",
+        "guid": "{14ad203f-52cc-4110-90d6-d96e0f41b64d}",
+        "icon": "C:/Program Files/Git/mingw64/share/git/git-for-windows.ico",
+        "name": "Git Bash",
+        "padding": "25, 0, 0, 0",
+        "snapOnInput": true,
+        "startingDirectory": "%dev%"
+    }
+}
