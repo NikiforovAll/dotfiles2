@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(handbook:skill-creator)",
+      "Skill(handbook-git-worktree:git-worktree)",
+      "Bash(cat:*)",
+      "Bash(ls:*)",
+      "Bash(file:*)",
+      "Bash(fd:*)",
+      "Bash(find:*)",
+      "Bash(rg:*)",
+      "Bash(grep:*)",
+      "Bash(mkdir:*)",
+      "Bash(git log:*)",
+      "Bash(chezmoi status:*)",
+      "Bash(chezmoi diff:*)"
+    ],
+    "deny": [],
+    "ask": [
+      "Bash(glab:*)"
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "npx -y ccstatusline@latest",
+    "padding": 0
+  }
+}
