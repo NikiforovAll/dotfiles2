@@ -33,6 +33,7 @@ Here is an example of user mnemonics, when user specifies:
 >pl means - "Run in parallel"
 >td means - "Add task to TODO list using `TodoWrite`
 >aq means - "Ask user a question using `AskUserQuestion`"
+>skl means - "Find matching skill and use it"
 </user_mnemonics>
 
 <commit_messages>
@@ -42,3 +43,7 @@ Do not mention Claude Code in commit messages. As if it was written by a human d
 <windows_path_issues>
 If you experience issues with Update/Write tool, try to use relative file path
 </windows_path_issues>
+
+<dotnet_build_rules>
+- ALWAYS build via: `dotnet build -p:WarningLevel=0 /clp:ErrorsOnly`
+</dotnet_build_rules>
