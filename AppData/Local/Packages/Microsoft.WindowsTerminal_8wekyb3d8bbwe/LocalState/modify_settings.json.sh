@@ -10,14 +10,14 @@
 
 set -euo pipefail
 
-# Destination directory where essentials.json is deployed
-DEST_DIR="$HOME/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState"
-ESSENTIALS="$DEST_DIR/essentials.json"
+# Chezmoi source directory (works on both Windows and Unix)
+CHEZMOI_SOURCE="${CHEZMOI_SOURCE_DIR:-$HOME/.local/share/chezmoi}"
+ESSENTIALS="$CHEZMOI_SOURCE/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/essentials.json"
 
-# For manual usage, also check script directory
+# Fallback to destination directory (for manual usage)
 if [[ ! -f "$ESSENTIALS" ]]; then
-    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    ESSENTIALS="$SCRIPT_DIR/essentials.json"
+    DEST_DIR="$HOME/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState"
+    ESSENTIALS="$DEST_DIR/essentials.json"
 fi
 
 # Check if jq is installed
