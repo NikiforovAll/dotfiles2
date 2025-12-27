@@ -15,6 +15,12 @@ if (-not (Test-Path $essentialsPath)) {
 # Read stdin (piped from interpreter wrapper) - collect all input into string
 $stdinContent = @($input) -join ""
 
+# Backup target file before modification
+$targetPath = "$env:USERPROFILE\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
+if (Test-Path $targetPath) {
+    Copy-Item $targetPath "$targetPath.backup" -Force
+}
+
 # Pass through if essentials.json doesn't exist
 if (-not (Test-Path $essentialsPath)) {
     Write-Output $stdinContent
