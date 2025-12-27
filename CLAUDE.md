@@ -33,6 +33,7 @@ Files in this repository use chezmoi naming prefixes:
 - `dot_` → `.` (e.g., `dot_bashrc` → `~/.bashrc`)
 - `modify_` → Script that transforms existing file (receives current content via stdin)
 - `readonly_` → Files deployed as read-only
+- `run_once_` → Scripts that run once per machine (tracked by checksum)
 
 ### Key Components
 
@@ -42,18 +43,27 @@ Files in this repository use chezmoi naming prefixes:
 | `dot_gitconfig` | `~/.gitconfig` | Git aliases, diff tools, credentials |
 | `dot_claude/` | `~/.claude/` | Claude Code settings with modify script |
 | `dot_config/chezmoi/` | `~/.config/chezmoi/` | Chezmoi config (merge tool, interpreters) |
-| `AppData/Local/Packages/Microsoft.WindowsTerminal_*/` | Windows Terminal | Settings with modify script |
+| `readonly_Documents/PowerShell/` | PowerShell profile | Read-only PS profile |
 | `dotfiles2-apps/` | N/A | Installation scripts and app bundles |
+
+### Run-Once Scripts
+
+Scripts executed once during `chezmoi apply`:
+- `run_once_01_install-core.ps1` - Installs Git and UniGetUI via winget
+- `run_once_02_install-fonts.ps1` - Installs MesloLGM Nerd Font
 
 ### Modify Scripts Pattern
 
-This repo uses **modify scripts** for merging settings while preserving local state:
+This repo uses **modify scripts** (PowerShell) for merging settings while preserving local state:
 
-1. **Claude Code** (`dot_claude/modify_settings.json.sh`): Syncs permissions and statusLine from `essentials.json`, preserves local `enabledPlugins`
+**Claude Code** (`dot_claude/modify_settings.json.ps1`): Syncs `permissions` and `statusLine` from `essentials.json`, preserves local `enabledPlugins`
 
-2. **Windows Terminal** (`AppData/.../modify_settings.json.sh`): Syncs global settings, color schemes, keybindings, profile order while preserving auto-discovered profiles
+### Installation Stages (Fresh Windows)
 
-Both scripts require `jq` and gracefully skip if unavailable.
+1. **Bootstrap**: `winget install twpayne.chezmoi`
+2. **Dotfiles + Core**: `chezmoi init --apply https://github.com/NikiforovAll/dotfiles2`
+3. **Runtimes**: `winget import -i dotfiles2-apps/runtimes.json`
+4. **Apps**: `pwsh -File dotfiles2-apps/install-bundle.ps1`
 
 ### External Dependencies
 
@@ -62,6 +72,6 @@ Configured in `.chezmoiexternal.toml`:
 
 ## Development Notes
 
-- **Shell scripts** use bash (chezmoi configured in `dot_config/chezmoi/chezmoi.toml` with `[interpreters.sh] command = "bash"`)
+- **PowerShell scripts** (`.ps1`) are executed via `pwsh` (configured in `dot_config/chezmoi/chezmoi.toml`)
 - **Merge conflicts** open in VS Code with 3-way merge
-- The `README.md` is in `.chezmoiignore` (not deployed to home)
+- `README.md` and `CLAUDE.md` are in `.chezmoiignore` (not deployed to home)

@@ -24,7 +24,10 @@ winget import -i runtimes.json --accept-package-agreements --accept-source-agree
 Installs: .NET SDK, Node.js, Python, PowerShell, Bun
 
 ### Stage 4: Apps
-Open **UniGetUI** → File → Import Bundle → select `uniget.ubundle`
+```powershell
+pwsh -File install-bundle.ps1        # or: pwsh -File install-bundle.ps1 -WhatIf
+```
+Alternative: UniGetUI → File → Import Bundle → `uniget.ubundle`
 
 ## Update
 
