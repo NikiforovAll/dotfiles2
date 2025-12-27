@@ -2,18 +2,18 @@
   "export_version": 3,
   "packages": [
     {
-      "Id": "7zip.7zip",
-      "Name": "7-Zip",
-      "Version": "24.08",
-      "Source": "winget",
-      "ManagerName": "Winget"
-    },
-    {
       "Id": "9WZDNCRDMDM3",
       "Name": "NuGet Package Explorer",
       "Version": "6.2.19.0",
       "Source": "msstore",
       "ManagerName": "Winget"
+    },
+    {
+      "Id": "@anthropic-ai/claude-code",
+      "Name": "Claude Code",
+      "Version": "2.0.76",
+      "Source": "npm",
+      "ManagerName": "Npm"
     },
     {
       "Id": "Anthropic.Claude",
@@ -191,6 +191,13 @@
       "ManagerName": "Winget"
     },
     {
+      "Id": "Oven-sh.Bun",
+      "Name": "Bun",
+      "Version": "1.3.4",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
       "Id": "Python.Python.3.12",
       "Name": "Python 3.12",
       "Version": "3.12.7",
@@ -261,18 +268,18 @@
       "ManagerName": "Winget"
     },
     {
-      "Id": "calibre.calibre",
-      "Name": "calibre",
-      "Version": "8.9.0",
-      "Source": "winget",
-      "ManagerName": "Winget"
-    },
-    {
       "Id": "csharpier",
       "Name": "Csharpier",
       "Version": "1.1.2",
       "Source": "nuget.org",
       "ManagerName": ".NET Tool"
+    },
+    {
+      "Id": "diff-so-fancy",
+      "Name": "Diff So Fancy",
+      "Version": "1.4.3",
+      "Source": "npm",
+      "ManagerName": "Npm"
     },
     {
       "Id": "dotnet-outdated-tool",
@@ -292,13 +299,6 @@
       "Id": "junegunn.fzf",
       "Name": "fzf",
       "Version": "0.55.0",
-      "Source": "winget",
-      "ManagerName": "Winget"
-    },
-    {
-      "Id": "lencx.ChatGPT",
-      "Name": "ChatGPT",
-      "Version": "1.1.0",
       "Source": "winget",
       "ManagerName": "Winget"
     },
