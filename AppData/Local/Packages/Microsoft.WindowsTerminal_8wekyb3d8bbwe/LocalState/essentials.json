@@ -159,7 +159,7 @@
         "guid": "{14ad203f-52cc-4110-90d6-d96e0f41b64d}",
         "icon": "C:/Program Files/Git/mingw64/share/git/git-for-windows.ico",
         "name": "Git Bash",
-        "padding": "25, 0, 0, 0",
+        "padding": "25, 25, 0, 0",
         "snapOnInput": true,
         "startingDirectory": "%dev%"
     }
