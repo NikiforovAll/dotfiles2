@@ -4,4 +4,5 @@ args = ["-NoProfile", "-Command", "Copy-Item '{{ .Target }}' '{{ .Target }}.base
 
 [interpreters.ps1]
 command = "pwsh"
-args = ["-NoProfile", "-Command", "[Console]::In.ReadToEnd() | pwsh -NoProfile -File $args[0]"]
+args = ["-NoProfile", "-File"]
+
