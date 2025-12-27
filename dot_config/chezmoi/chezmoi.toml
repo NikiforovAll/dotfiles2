@@ -1,6 +1,7 @@
 [merge]
-command = "bash"
-args = ["-c", "cp {{ .Target }} {{ .Target }}.base && code --new-window --wait --merge {{ .Destination }} {{ .Target }} {{ .Target }}.base {{ .Source }}"]
+command = "pwsh"
+args = ["-NoProfile", "-Command", "Copy-Item '{{ .Target }}' '{{ .Target }}.base'; code --new-window --wait --merge '{{ .Destination }}' '{{ .Target }}' '{{ .Target }}.base' '{{ .Source }}'"]
 
-[interpreters.sh]
-command = "bash"
+[interpreters.ps1]
+command = "pwsh"
+args = ["-NoProfile", "-Command", "[Console]::In.ReadToEnd() | pwsh -NoProfile -File $args[0]"]

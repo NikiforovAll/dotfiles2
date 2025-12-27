@@ -101,8 +101,9 @@ PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
 # oh-my-posh
 ######
 # https://ohmyposh.dev/docs/
-
-eval "$(oh-my-posh init bash --config ~/.nikiforovall.omp3.json)"
+if [[ "$-" = *i* ]]; then
+    eval "$(oh-my-posh init bash --config ~/.nikiforovall.omp3.json)"
+fi
 
 ## alternatively
 # export PS1='\[\033[36m\]\w\[\033[33m\]$(__git_ps1 " (%s)")\[\033[0m\]\$ '

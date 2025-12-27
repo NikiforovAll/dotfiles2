@@ -58,13 +58,6 @@
       "ManagerName": "Winget"
     },
     {
-      "Id": "Git.Git",
-      "Name": "Git",
-      "Version": "2.47.1",
-      "Source": "winget",
-      "ManagerName": "Winget"
-    },
-    {
       "Id": "GitHub.cli",
       "Name": "GitHub CLI",
       "Version": "2.78.0",
@@ -121,23 +114,9 @@
       "ManagerName": "Winget"
     },
     {
-      "Id": "Microsoft.DotNet.SDK.10",
-      "Name": "Microsoft .NET SDK 10.0",
-      "Version": "10.0.100",
-      "Source": "winget",
-      "ManagerName": "Winget"
-    },
-    {
       "Id": "Microsoft.PerfView",
       "Name": "PerfView",
       "Version": "3.1.19",
-      "Source": "winget",
-      "ManagerName": "Winget"
-    },
-    {
-      "Id": "Microsoft.PowerShell",
-      "Name": "PowerShell",
-      "Version": "7.5.4.0",
       "Source": "winget",
       "ManagerName": "Winget"
     },
@@ -180,27 +159,6 @@
       "Id": "Obsidian.Obsidian",
       "Name": "Obsidian",
       "Version": "1.9.12",
-      "Source": "winget",
-      "ManagerName": "Winget"
-    },
-    {
-      "Id": "OpenJS.NodeJS.LTS",
-      "Name": "Node.js (LTS)",
-      "Version": "20.18.0",
-      "Source": "winget",
-      "ManagerName": "Winget"
-    },
-    {
-      "Id": "Oven-sh.Bun",
-      "Name": "Bun",
-      "Version": "1.3.4",
-      "Source": "winget",
-      "ManagerName": "Winget"
-    },
-    {
-      "Id": "Python.Python.3.12",
-      "Name": "Python 3.12",
-      "Version": "3.12.7",
       "Source": "winget",
       "ManagerName": "Winget"
     },
@@ -270,7 +228,7 @@
     {
       "Id": "csharpier",
       "Name": "Csharpier",
-      "Version": "1.1.2",
+      "Version": "1.2.1",
       "Source": "nuget.org",
       "ManagerName": ".NET Tool"
     },
@@ -317,13 +275,6 @@
       "ManagerName": "Winget"
     },
     {
-      "Id": "nerd-fonts-Meslo",
-      "Name": "Nerd Fonts Meslo",
-      "Version": "3.4.0",
-      "Source": "community",
-      "ManagerName": "Chocolatey"
-    },
-    {
       "Id": "sharkdp.bat",
       "Name": "bat",
       "Version": "0.25.0",
@@ -341,13 +292,6 @@
       "Id": "splode.pomotroid",
       "Name": "Pomotroid",
       "Version": "0.13.0",
-      "Source": "winget",
-      "ManagerName": "Winget"
-    },
-    {
-      "Id": "twpayne.chezmoi",
-      "Name": "chezmoi",
-      "Version": "2.64.0",
       "Source": "winget",
       "ManagerName": "Winget"
     },
