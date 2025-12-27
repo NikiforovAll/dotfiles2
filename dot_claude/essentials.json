@@ -12,6 +12,7 @@
       "Bash(grep:*)",
       "Bash(mkdir:*)",
       "Bash(git log:*)",
+      "Bash(git rev-parse:*)",
       "Bash(chezmoi status:*)",
       "Bash(chezmoi diff:*)",
       "Bash(dotnet build:*)"

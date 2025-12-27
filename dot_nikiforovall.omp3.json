@@ -20,8 +20,17 @@
             "fetch_status": true
           },
           "style": "plain",
-          "template": "<#ffffff>on</> {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}",
+          "template": "<#ffffff>on</> {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} <#f0c674>!{{ .Working.String }}</>{{ end }}{{ if .Staging.Changed }} <#8abeb7>+{{ .Staging.String }}</>{{ end }}",
           "type": "git"
+        },
+        {
+          "type": "executiontime",
+          "style": "plain",
+          "foreground": "yellow",
+          "properties": {
+            "threshold": 2000
+          },
+          "template": " took {{ .FormattedMs }}"
         }
       ],
       "type": "prompt"
