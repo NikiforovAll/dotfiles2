@@ -1,4 +1,4 @@
-alias ls='lsd'
+alias l='lsd -l'
 alias d=dotnet
 alias cc=claude
 alias ccsp='claude --dangerously-skip-permissions'
