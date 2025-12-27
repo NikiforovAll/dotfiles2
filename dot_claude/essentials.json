@@ -9,6 +9,7 @@
       "Bash(fd:*)",
       "Bash(find:*)",
       "Bash(rg:*)",
+      "Bash(xargs rg:*)",
       "Bash(grep:*)",
       "Bash(mkdir:*)",
       "Bash(git log:*)",
