@@ -34,6 +34,7 @@ Here is an example of user mnemonics, when user specifies:
 >td means - "Add task to TODO list using `TodoWrite`
 >aq means - "Ask user a question using `AskUserQuestion`"
 >skl means - "Find matching skill and use it"
+>sw means - "Search Web"
 </user_mnemonics>
 
 <commit_messages>
