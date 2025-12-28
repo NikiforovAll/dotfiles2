@@ -22,7 +22,8 @@ IMPORTANT: DO NOT remove existing comments.
 <duplicate_plan>
 IMPORTANT: Before starting implementation of the approved plan - ask user if he wants to store it. Use `AskUserQuestion` to ask user.
 If Yes, copy a PLAN to `_plans/<plan_name>` (from `~/.claude/plans`) folder in the root of the repository. 
-Put a footer in the copied plan file with the line: `# This file is a copy of original plan ~/.claude/plans/<plan_name>`.
+Put a footer in the copied plan file with the line: `# This file is a copy of original plan ~/.claude/plans/<plan_name>`. 
+<plan_name> is human readable name of the plan, for example `add_logging_to_services.md`.
 Copying existing plan should be the first step in implementation of the plan as `TodoWrite` item.
 </duplicate_plan>
 
