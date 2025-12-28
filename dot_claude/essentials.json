@@ -13,14 +13,24 @@
       "Bash(grep:*)",
       "Bash(mkdir:*)",
       "Bash(git log:*)",
+      "Bash(git worktree list:*)",
       "Bash(git rev-parse:*)",
       "Bash(chezmoi status:*)",
       "Bash(chezmoi diff:*)",
-      "Bash(dotnet build:*)"
+      "Bash(dotnet build:*)",
+      "Bash(glab mr view:*)",
+      "Bash(glab mr list:*)",
+      "Bash(glab pipeline view:*)",
+      "Bash(glab pipeline list:*)",
+      "Bash(glab ci view:*)",
+      "Bash(glab ci list:*)",
+      "Bash(glab ci status:*)",
+      "Bash(glab ci get:*)",
+      "Bash(glab ci trace:*)"
     ],
     "deny": [],
     "ask": [
-      "Bash(glab:*)"
+      "Bash(glab api:*)"
     ]
   },
   "statusLine": {

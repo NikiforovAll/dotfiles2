@@ -3,7 +3,7 @@ type = "git-repo"
 url = "https://github.com/NikiforovAll/private-claude"
 refreshPeriod = "24h"
 
-["dev/claude-code-rules"]
+[".claude/claude-code-rules"]
 type = "git-repo"
 url = "https://github.com/NikiforovAll/claude-code-rules"
 refreshPeriod = "24h"

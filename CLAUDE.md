@@ -69,6 +69,7 @@ This repo uses **modify scripts** (PowerShell) for merging settings while preser
 
 Configured in `.chezmoiexternal.toml`:
 - `.claude/nikiforovall` - Private Claude config from `https://github.com/NikiforovAll/private-claude` (refreshed every 24h)
+- `.claude/claude-code-rules` - Claude Code plugins and handbook from `https://github.com/NikiforovAll/claude-code-rules` (refreshed every 24h)
 
 ## Development Notes
 
