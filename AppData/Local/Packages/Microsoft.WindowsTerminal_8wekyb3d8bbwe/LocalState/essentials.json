@@ -65,6 +65,20 @@
                 "window": "new"
             },
             "id": "User.moveTab.EA39957B"
+        },
+        {
+            "command": {
+                "action": "moveTab",
+                "direction": "backward"
+            },
+            "id": "User.moveTab.EF07D31B"
+        },
+        {
+            "command": {
+                "action": "moveTab",
+                "direction": "forward"
+            },
+            "id": "User.moveTab.793E2350"
         }
     ],
     "keybindings": [
@@ -99,6 +113,14 @@
         {
             "id": "User.moveTab.EA39957B",
             "keys": "ctrl+alt+shift+n"
+        },
+        {
+            "id": "User.moveTab.EF07D31B",
+            "keys": "ctrl+["
+        },
+        {
+            "id": "User.moveTab.793E2350",
+            "keys": "ctrl+]"
         }
     ],
     "schemes": [
