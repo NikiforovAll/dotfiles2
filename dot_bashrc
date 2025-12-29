@@ -1,6 +1,7 @@
 alias l='lsd -l'
 alias d=dotnet
 alias cc=claude
+alias oc=opencode
 alias ccsp='claude --dangerously-skip-permissions'
 alias c=code
 alias bashrc='code ~/.bashrc'
@@ -24,8 +25,8 @@ utt() {
 ######
 # editor
 ######
-export EDITOR=code
-export VISUAL=code
+export EDITOR="code --wait"
+export VISUAL="code --wait"
 
 #####
 # z

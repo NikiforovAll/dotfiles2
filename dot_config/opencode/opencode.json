@@ -1,0 +1,24 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "autoupdate": true,
+  "model": "anthropic/claude-opus-4-5",
+  "small_model": "google/gemini-3-flash-preview",
+  "theme": "gruvbox",
+  "plugin": [
+    "opencode-gemini-auth@latest"
+  ],
+  "provider": {
+    "anthropic": {
+      "models": {
+        "claude-opus-4-5": {
+          "options": {
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 20000,
+            },
+          },
+        },
+      },
+    },
+  },
+}
