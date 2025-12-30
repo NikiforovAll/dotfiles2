@@ -9,6 +9,7 @@ alias tm='task-master'
 alias lg='lazygit'
 alias ld='lazydocker'
 alias lc='uvx lazyclaude'
+alias loc='uvx lazyopencode'
 alias g='git'
 alias docker='podman'
 
