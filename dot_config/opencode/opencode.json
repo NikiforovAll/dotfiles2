@@ -7,6 +7,29 @@
   "plugin": [
     "opencode-gemini-auth@latest"
   ],
+  "permission": {
+    "bash": {
+      "rg": "allow",
+      "grep": "allow",
+      "fd": "allow",
+      "find": "allow",
+      "git status": "allow",
+      "git diff": "allow",
+      "ls": "allow",
+      "cat": "allow",
+      "pwd": "allow",
+      "mkdir": "allow",
+      "*": "ask"
+    }
+  },
+  "agent": {
+    "plan": {
+      "model": "anthropic/claude-opus-4-5",
+    },
+    "build": {
+      "model": "google/gemini-3-pro-preview"
+    }
+  },
   "provider": {
     "anthropic": {
       "models": {
@@ -20,5 +43,5 @@
         },
       },
     },
-  },
+  }
 }

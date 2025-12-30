@@ -2,7 +2,7 @@
     "globalSettings": {
         "launchMode": "maximized",
         "focusFollowMouse": true,
-        "copyOnSelect": false,
+        "copyOnSelect": true,
         "copyFormatting": "none",
         "centerOnLaunch": true,
         "tabWidthMode": "titleLength",
