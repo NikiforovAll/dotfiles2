@@ -110,3 +110,15 @@ fi
 ## alternatively
 # export PS1='\[\033[36m\]\w\[\033[33m\]$(__git_ps1 " (%s)")\[\033[0m\]\$ '
 
+
+######
+# worktrunk
+######
+
+# alias (gwt -> dynamic wt.exe to avoid Windows Terminal conflict)
+if command -v git-wt.exe &> /dev/null; then
+    alias gwt="$(dirname "$(command -v git-wt.exe)")/wt.exe"
+fi
+
+# shell integration for cd
+if command -v git wt >/dev/null 2>&1; then eval "$(command git wt config shell init bash)"; fi
