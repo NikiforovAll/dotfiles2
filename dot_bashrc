@@ -12,6 +12,7 @@ alias lc='uvx lazyclaude'
 alias loc='uvx lazyopencode'
 alias g='git'
 alias docker='podman'
+alias cz='chezmoi'
 
 ######
 # terminal

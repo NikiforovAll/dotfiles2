@@ -28,7 +28,9 @@
       "Bash(glab ci get:*)",
       "Bash(glab ci trace:*)"
     ],
-    "deny": [],
+    "deny": [
+      "Bash(tree:*)"
+    ],
     "ask": [
       "Bash(glab api:*)"
     ]
