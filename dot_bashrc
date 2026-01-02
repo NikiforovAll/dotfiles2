@@ -120,6 +120,3 @@ fi
 if command -v git-wt.exe &> /dev/null; then
     alias gwt="$(dirname "$(command -v git-wt.exe)")/wt.exe"
 fi
-
-# shell integration for cd
-if command -v git wt >/dev/null 2>&1; then eval "$(command git wt config shell init bash)"; fi
