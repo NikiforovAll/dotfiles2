@@ -7,3 +7,8 @@ refreshPeriod = "24h"
 type = "git-repo"
 url = "https://github.com/NikiforovAll/claude-code-rules"
 refreshPeriod = "24h"
+
+[".config/opencode/nikiforovall"]
+type = "git-repo"
+url = "https://github.com/NikiforovAll/private-opencode"
+refreshPeriod = "24h"

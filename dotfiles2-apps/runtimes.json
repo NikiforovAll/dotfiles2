@@ -26,6 +26,9 @@
         },
         {
           "PackageIdentifier": "Rustlang.Rustup"
+        },
+        {
+          "PackageIdentifier": "GoLang.Go"
         }
       ]
     }
