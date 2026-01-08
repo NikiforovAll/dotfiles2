@@ -19,9 +19,6 @@
           "PackageIdentifier": "OpenJS.NodeJS.LTS"
         },
         {
-          "PackageIdentifier": "Oven-sh.Bun"
-        },
-        {
           "PackageIdentifier": "Python.Python.3.12"
         },
         {
@@ -29,6 +26,9 @@
         },
         {
           "PackageIdentifier": "GoLang.Go"
+        },
+        {
+          "PackageIdentifier": "astral-sh.uv"
         }
       ]
     }

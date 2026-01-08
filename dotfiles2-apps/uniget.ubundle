@@ -9,13 +9,6 @@
       "ManagerName": "Winget"
     },
     {
-      "Id": "@anthropic-ai/claude-code",
-      "Name": "Claude Code",
-      "Version": "2.0.76",
-      "Source": "npm",
-      "ManagerName": "Npm"
-    },
-    {
       "Id": "Anthropic.Claude",
       "Name": "Claude",
       "Version": "0.12.112",

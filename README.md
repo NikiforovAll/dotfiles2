@@ -21,13 +21,19 @@ This automatically installs:
 cd ~/.local/share/chezmoi/dotfiles2-apps
 winget import -i runtimes.json --accept-package-agreements --accept-source-agreements
 ```
-Installs: .NET SDK, Node.js, Python, PowerShell, Bun
 
 ### Stage 4: Apps
 ```powershell
 pwsh -File install-bundle.ps1        # or: pwsh -File install-bundle.ps1 -WhatIf
 ```
 Alternative: UniGetUI → File → Import Bundle → `uniget.ubundle`
+
+### Stage 5: Manual Installations
+
+The following tools are installed using native installers:
+- Bun
+- OpenCode
+- Claude Code
 
 ## Update
 
