@@ -11,6 +11,7 @@
   ],
   "permission": {
     "bash": {
+      "*": "ask",
       "rg *": "allow",
       "grep *": "allow",
       "fd *": "allow",
@@ -24,8 +25,7 @@
       "pwd *": "allow",
       "head *": "allow",
       "tail *": "allow",
-      "mkdir *": "allow",
-      "*": "ask"
+      "mkdir *": "allow"
     }
   },
   "agent": {

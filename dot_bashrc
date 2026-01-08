@@ -2,6 +2,7 @@ alias l='lsd -l'
 alias d=dotnet
 alias cc=claude
 alias oc=opencode
+alias ocm='bunx opencode-marketplace'
 alias ccsp='claude --dangerously-skip-permissions'
 alias c=code
 alias bashrc='code ~/.bashrc'
@@ -118,7 +119,7 @@ fi
 
 # alias (gwt -> dynamic wt.exe to avoid Windows Terminal conflict)
 if command -v git-wt.exe &> /dev/null; then
-    alias gwt="$(dirname "$(command -v git-wt.exe)")/wt.exe"
+    alias gwt="git-wt.exe"
 fi
 
 if command -v git-wt >/dev/null 2>&1; then eval "$(command git-wt config shell init bash)"; fi
