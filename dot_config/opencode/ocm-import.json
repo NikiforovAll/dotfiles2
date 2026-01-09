@@ -1,0 +1,6 @@
+{
+  "plugins": [
+    "https://github.com/nikiforovall/claude-code-rules/tree/main/plugins/handbook-glab",
+    "https://github.com/SawyerHood/dev-browser"
+  ]
+}
