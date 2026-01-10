@@ -30,12 +30,13 @@ Copying existing plan should be the first step in implementation of the plan as 
 <user_mnemonics>
 Here is an example of user mnemonics, when user specifies:
 
->bg means - "Run task in the background"
->pl means - "Run in parallel"
->td means - "Add task to TODO list using `TodoWrite`
->aq means - "Ask user a question using `AskUserQuestion`"
->skl means - "Find matching skill and use it"
->sw means - "Search Web"
+>bg - means "Run task in the background"
+>pl - means "Run in parallel"
+>td - means "Add task to TODO list using `TodoWrite`
+>aq - means "Ask user a question using `AskUserQuestion`"
+>skl - means "Find matching skill and use it"
+>sw - means "Search Web"
+>memorize - means "If important information from this prompt is missing in CLAUDE.md (aka memory), update it"
 </user_mnemonics>
 
 <commit_messages>
