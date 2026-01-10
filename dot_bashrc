@@ -14,6 +14,7 @@ alias loc='uvx lazyopencode'
 alias g='git'
 alias docker='podman'
 alias cz='chezmoi'
+alias czwt='wt.exe -d ~/.local/share/chezmoi \; split-pane -V -d ~/.claude/nikiforovall \; split-pane -V -d ~/.config/opencode/nikiforovall'
 
 ######
 # terminal
