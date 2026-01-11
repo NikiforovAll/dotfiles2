@@ -12,3 +12,7 @@ refreshPeriod = "1h"
 type = "git-repo"
 url = "https://github.com/NikiforovAll/private-opencode"
 refreshPeriod = "1h"
+
+[".tmux/plugins/tpm"]
+type = "git-repo"
+url = "https://github.com/tmux-plugins/tpm.git"
