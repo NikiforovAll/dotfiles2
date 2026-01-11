@@ -17,6 +17,13 @@ alias cz='chezmoi'
 
 alias ??='opencode run --model google/gemini-3-flash-preview'
 
+#####
+# config
+#####
+
+# XDG Base Directory Specification, required for nvim
+export XDG_CONFIG_HOME="$HOME/.config"
+
 ######
 # terminal
 ######
