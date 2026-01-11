@@ -21,6 +21,8 @@ alias ??='opencode run --model google/gemini-3-flash-preview'
 # terminal
 ######
 alias wtc='wt -w 0 -d $(pwd) --title "$(basename $(pwd))"'
+alias alct='alacritty --working-directory $(pwd) -T "$(basename $(pwd))" &'
+
 
 alias czwt='wt.exe -d ~/.local/share/chezmoi \; split-pane -V -d ~/.claude/nikiforovall \; split-pane -V -d ~/.config/opencode/nikiforovall'
 
