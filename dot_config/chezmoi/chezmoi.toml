@@ -6,3 +6,10 @@ args = ["-NoProfile", "-Command", "Copy-Item '{{ .Target }}' '{{ .Target }}.base
 command = "pwsh"
 args = ["-NoProfile", "-File"]
 
+[externals."~/.config/alacritty/themes"]
+type = "git-repo"
+url = "https://github.com/alacritty/alacritty-theme.git"
+[externals."~/.config/alacritty/themes".clone]
+args = ["--depth", "1"]
+
+

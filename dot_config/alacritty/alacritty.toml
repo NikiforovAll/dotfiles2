@@ -14,10 +14,8 @@ size = 12.0
 [font.normal]
 family = "MesloLGM Nerd Font"
 
-# Gruvbox Dark
-[colors.primary]
-background = "#282828"
-foreground = "#EBDBB2"
-
 [general]
 working_directory = "C:/Users/nikiforovall/dev"
+import = [
+    "~/.config/alacritty/themes/themes/gruvbox_dark.toml"
+]
