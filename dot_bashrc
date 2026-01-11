@@ -14,12 +14,15 @@ alias loc='uvx lazyopencode'
 alias g='git'
 alias docker='podman'
 alias cz='chezmoi'
-alias czwt='wt.exe -d ~/.local/share/chezmoi \; split-pane -V -d ~/.claude/nikiforovall \; split-pane -V -d ~/.config/opencode/nikiforovall'
+
+alias ??='opencode run --model google/gemini-3-flash-preview'
 
 ######
 # terminal
 ######
 alias wtc='wt -w 0 -d $(pwd) --title "$(basename $(pwd))"'
+
+alias czwt='wt.exe -d ~/.local/share/chezmoi \; split-pane -V -d ~/.claude/nikiforovall \; split-pane -V -d ~/.config/opencode/nikiforovall'
 
 #update_terminal_title
 utt() {
@@ -149,4 +152,3 @@ if command -v git-wt.exe &> /dev/null; then
 fi
 
 if command -v git-wt >/dev/null 2>&1; then eval "$(command git-wt config shell init bash)"; fi
-
