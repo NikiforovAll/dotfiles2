@@ -9,6 +9,13 @@
       "ManagerName": "Winget"
     },
     {
+      "Id": "Alacritty.Alacritty",
+      "Name": "Alacritty",
+      "Version": "0.16.1",
+      "Source": "winget",
+      "ManagerName": "Winget"
+    },
+    {
       "Id": "Anthropic.Claude",
       "Name": "Claude",
       "Version": "0.12.112",

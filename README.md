@@ -35,6 +35,8 @@ The following tools are installed using native installers:
 - OpenCode
 - Claude Code
 
+- tmux (should be installed manually; by copying from MSYS2)
+
 ## Update
 
 ### Update Dotfiles

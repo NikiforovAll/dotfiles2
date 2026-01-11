@@ -26,6 +26,31 @@ utt() {
     echo -ne "\033]0;$(basename "$PWD")\007"
 }
 
+
+# Tmux Smart Attach/Create Function
+t() {
+  # Get the current directory name
+  local session_name=$(basename "$PWD" | tr . _)
+
+  # Check if the session exists
+  if tmux has-session -t "$session_name" 2>/dev/null; then
+    # If attached, switch to it; otherwise attach
+    if [ -n "$TMUX" ]; then
+      tmux switch-client -t "$session_name"
+    else
+      tmux attach-session -t "$session_name"
+    fi
+  else
+    # Create new session
+    if [ -n "$TMUX" ]; then
+      tmux new-session -d -s "$session_name"
+      tmux switch-client -t "$session_name"
+    else
+      tmux new-session -s "$session_name"
+    fi
+  fi
+}
+
 ######
 # editor
 ######
@@ -124,3 +149,4 @@ if command -v git-wt.exe &> /dev/null; then
 fi
 
 if command -v git-wt >/dev/null 2>&1; then eval "$(command git-wt config shell init bash)"; fi
+
