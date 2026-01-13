@@ -28,14 +28,15 @@ export XDG_CONFIG_HOME="$HOME/.config"
 # terminal
 ######
 alias wtc='wt -w 0 -d $(pwd) --title "$(basename $(pwd))"'
-alias alct='alacritty --working-directory $(pwd) -T "$(basename $(pwd))" &'
-
-
-alias czwt='wt.exe -d ~/.local/share/chezmoi \; split-pane -V -d ~/.claude/nikiforovall \; split-pane -V -d ~/.config/opencode/nikiforovall'
+alias ac='alacritty --working-directory $(pwd) -T "$(basename $(pwd))" &'
 
 #update_terminal_title
 utt() {
     echo -ne "\033]0;$(basename "$PWD")\007"
+}
+
+fix_mouse() {
+    printf '\e[?1000l\e[?1002l\e[?1003l\e[?1006l'
 }
 
 
