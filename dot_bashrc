@@ -2,6 +2,7 @@ alias l='lsd -l'
 alias d=dotnet
 alias cc=claude
 alias oc=opencode
+alias oce='OPENCODE_EXPERIMENTAL_PLAN_MODE=1 opencode'
 alias ocm='bunx opencode-marketplace'
 alias ccsp='claude --dangerously-skip-permissions'
 alias c=code
@@ -147,10 +148,6 @@ PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
 if [[ "$-" = *i* ]]; then
     eval "$(oh-my-posh init bash --config ~/.nikiforovall.omp3.json)"
 fi
-
-## alternatively
-# export PS1='\[\033[36m\]\w\[\033[33m\]$(__git_ps1 " (%s)")\[\033[0m\]\$ '
-
 
 ######
 # worktrunk
