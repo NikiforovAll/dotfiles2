@@ -1,8 +1,8 @@
 alias l='lsd -l'
 alias d=dotnet
 alias cc=claude
-alias oc=opencode
-alias oce='OPENCODE_EXPERIMENTAL_PLAN_MODE=1 opencode'
+alias oc='safe_tui opencode'
+alias oce='OPENCODE_EXPERIMENTAL_PLAN_MODE=1 safe_tui opencode'
 alias ocm='bunx opencode-marketplace'
 alias ccsp='claude --dangerously-skip-permissions'
 alias c=code
@@ -35,6 +35,17 @@ alias ac='alacritty --working-directory $(pwd) -T "$(basename $(pwd))" &'
 utt() {
     echo -ne "\033]0;$(basename "$PWD")\007"
 }
+
+## well known issue with alacritty and mouse mode
+safe_tui() {
+    "$@"
+    printf '\e[?1000l\e[?1002l\e[?1003l\e[?1006l'
+}
+
+# Then alias your problematic TUI apps
+alias opencode='safe_tui opencode'
+alias lazygit='safe_tui lazygit'
+alias k9s='safe_tui k9s'
 
 fix_mouse() {
     printf '\e[?1000l\e[?1002l\e[?1003l\e[?1006l'
