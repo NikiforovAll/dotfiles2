@@ -1,12 +1,15 @@
 
 [terminal]
-shell = { program = "C:/Program Files/Git/bin/bash.exe", args = ["--login", "-i"] }
+shell = { program = "C:/Program Files/Git/bin/bash.exe", args = [
+    "--login",
+    "-i",
+] }
 
 [window]
 decorations = "None"
 startup_mode = "Maximized"
 opacity = 1.0
-padding = { x = 20, y = 20 }
+padding = { x = 5, y = 5 }
 dynamic_padding = true
 
 [mouse]
@@ -19,6 +22,14 @@ family = "MesloLGM Nerd Font"
 
 [general]
 working_directory = "C:/Users/nikiforovall/dev"
-import = [
-    "~/.config/alacritty/themes/themes/gruvbox_dark.toml"
+import = ["~/.config/alacritty/themes/themes/gruvbox_dark.toml"]
+
+[keyboard]
+bindings = [
+    { key = 'PageUp', action = 'ScrollLineUp' },
+    { key = 'PageDown', action = 'ScrollLineDown' },
+    { key = 'PageUp', mods = "Shift", action = 'ScrollHalfPageUp' },
+    { key = 'PageDown', mods = "Shift", action = 'ScrollHalfPageDown' },
+    { key = 'PageUp', mods = "Control", action = 'ScrollToTop' },
+    { key = 'PageDown', mods = "Control", action = 'ScrollToBottom' },
 ]
