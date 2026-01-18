@@ -15,6 +15,7 @@ alias loc='uvx lazyopencode'
 alias g='git'
 alias docker='podman'
 alias cz='chezmoi'
+alias vault='start obsidian://open?vault=notes'
 
 alias ??='opencode run --model google/gemini-3-flash-preview'
 
@@ -41,11 +42,6 @@ safe_tui() {
     "$@"
     printf '\e[?1000l\e[?1002l\e[?1003l\e[?1006l'
 }
-
-# Then alias your problematic TUI apps
-alias opencode='safe_tui opencode'
-alias lazygit='safe_tui lazygit'
-alias k9s='safe_tui k9s'
 
 fix_mouse() {
     printf '\e[?1000l\e[?1002l\e[?1003l\e[?1006l'
@@ -85,8 +81,9 @@ export VISUAL="code --wait"
 #####
 # z
 #####
-
-eval "$(zoxide init bash)"
+if [[ "$-" == *i* ]]; then
+    eval "$(zoxide init bash)"
+fi
 
 ######
 # git
@@ -101,7 +98,9 @@ fi
 # fzf
 ######
 # https://github.com/junegunn/fzf
-eval "$(fzf --bash)"
+if [[ "$-" == *i* ]]; then
+    eval "$(fzf --bash)"
+fi
 
 # Preview file content using bat (https://github.com/sharkdp/bat)
 export FZF_CTRL_T_OPTS="
@@ -147,9 +146,11 @@ rfzf() {
 ######
 # history
 ######
-# persist command history across sessions
-
 shopt -s histappend
+HISTSIZE=5000
+HISTFILESIZE=10000
+HISTCONTROL=ignoreboth:erasedups
+HISTIGNORE="ls:ll:l:cd:pwd:exit:clear"
 PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
 
 ######
@@ -169,4 +170,5 @@ if command -v git-wt.exe &> /dev/null; then
     alias gwt="git-wt.exe"
 fi
 
-if command -v git-wt >/dev/null 2>&1; then eval "$(command git-wt config shell init bash)"; fi
+# Claude Code deferred MCP loading (added by Taskmaster)
+export ENABLE_EXPERIMENTAL_MCP_CLI='true'
