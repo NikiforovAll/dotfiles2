@@ -26,10 +26,8 @@ import = ["~/.config/alacritty/themes/themes/gruvbox_dark.toml"]
 
 [keyboard]
 bindings = [
-    { key = 'PageUp', action = 'ScrollLineUp' },
-    { key = 'PageDown', action = 'ScrollLineDown' },
-    { key = 'PageUp', mods = "Shift", action = 'ScrollHalfPageUp' },
-    { key = 'PageDown', mods = "Shift", action = 'ScrollHalfPageDown' },
+    { key = 'PageUp', mods = "Shift", action = 'ScrollPageUp' },
+    { key = 'PageDown', mods = "Shift", action = 'ScrollPageDown' },
     { key = 'PageUp', mods = "Control", action = 'ScrollToTop' },
     { key = 'PageDown', mods = "Control", action = 'ScrollToBottom' },
 ]
