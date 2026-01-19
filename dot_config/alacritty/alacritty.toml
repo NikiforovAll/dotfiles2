@@ -24,6 +24,9 @@ family = "MesloLGM Nerd Font"
 working_directory = "C:/Users/nikiforovall/dev"
 import = ["~/.config/alacritty/themes/themes/gruvbox_dark.toml"]
 
+[cursor]
+style = { shape = "Beam", blinking = "Off" }
+
 [keyboard]
 bindings = [
     { key = 'PageUp', mods = "Shift", action = 'ScrollPageUp' },
