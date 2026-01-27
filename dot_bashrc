@@ -17,6 +17,7 @@ alias g='git'
 alias docker='podman'
 alias cz='chezmoi'
 alias vault='start obsidian://open?vault=notes'
+alias ctv='npx claude-task-viewer --open'
 
 alias ??='opencode run --model google/gemini-3-flash-preview'
 alias ???='opencode run --model google/gemini-3-flash-preview --continue'
@@ -32,7 +33,11 @@ export XDG_CONFIG_HOME="$HOME/.config"
 # terminal
 ######
 alias wtc='wt -w 0 -d $(pwd) --title "$(basename $(pwd))"'
-alias ac='alacritty --working-directory $(pwd) &'
+
+ac() {
+    local dir="${1:-$(pwd)}"
+    alacritty --working-directory "$dir" &
+}
 
 #update_terminal_title
 utt() {
@@ -172,7 +177,7 @@ if command -v git-wt.exe &> /dev/null; then
     alias gwt="git-wt.exe"
 fi
 
-# Claude Code deferred MCP loading
+# Claude Code deferred MCP loading (added by Taskmaster)
 export ENABLE_EXPERIMENTAL_MCP_CLI='true'
 
 # Set terminal title to current directory on load
