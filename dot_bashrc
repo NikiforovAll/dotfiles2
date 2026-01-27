@@ -2,6 +2,7 @@ alias l='lsd -l'
 alias d=dotnet
 alias cc=claude
 alias oc='safe_tui opencode'
+alias co='copilot'
 alias oce='OPENCODE_EXPERIMENTAL_PLAN_MODE=1 safe_tui opencode'
 alias ocm='bunx opencode-marketplace'
 alias ccsp='claude --dangerously-skip-permissions'
@@ -18,6 +19,7 @@ alias cz='chezmoi'
 alias vault='start obsidian://open?vault=notes'
 
 alias ??='opencode run --model google/gemini-3-flash-preview'
+alias ???='opencode run --model google/gemini-3-flash-preview --continue'
 
 #####
 # config
@@ -30,7 +32,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 # terminal
 ######
 alias wtc='wt -w 0 -d $(pwd) --title "$(basename $(pwd))"'
-alias ac='alacritty --working-directory $(pwd) -T "$(basename $(pwd))" &'
+alias ac='alacritty --working-directory $(pwd) &'
 
 #update_terminal_title
 utt() {
@@ -170,5 +172,8 @@ if command -v git-wt.exe &> /dev/null; then
     alias gwt="git-wt.exe"
 fi
 
-# Claude Code deferred MCP loading (added by Taskmaster)
+# Claude Code deferred MCP loading
 export ENABLE_EXPERIMENTAL_MCP_CLI='true'
+
+# Set terminal title to current directory on load
+[[ "$-" = *i* ]] && echo -ne "\033]0;$(basename "$PWD")\007"
