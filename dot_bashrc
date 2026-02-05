@@ -56,25 +56,23 @@ fix_mouse() {
 
 
 # Tmux Smart Attach/Create Function
+# Usage: t [folder] - attach/create tmux session named after folder (default: current dir)
 t() {
-  # Get the current directory name
-  local session_name=$(basename "$PWD" | tr . _)
+  local target_dir="${1:-$PWD}"
+  local session_name=$(basename "$target_dir" | tr . _)
 
-  # Check if the session exists
   if tmux has-session -t "$session_name" 2>/dev/null; then
-    # If attached, switch to it; otherwise attach
     if [ -n "$TMUX" ]; then
       tmux switch-client -t "$session_name"
     else
       tmux attach-session -t "$session_name"
     fi
   else
-    # Create new session
     if [ -n "$TMUX" ]; then
-      tmux new-session -d -s "$session_name"
+      tmux new-session -d -s "$session_name" -c "$target_dir"
       tmux switch-client -t "$session_name"
     else
-      tmux new-session -s "$session_name"
+      tmux new-session -s "$session_name" -c "$target_dir"
     fi
   fi
 }
@@ -149,6 +147,10 @@ rfzf() {
     | cut -d: -f1
 }
 
+cwt() {
+  local dir=$(g wtl | fzf | awk '{print $1}')
+  [[ -n "$dir" ]] && cd "$dir"
+}
 
 ######
 # history
