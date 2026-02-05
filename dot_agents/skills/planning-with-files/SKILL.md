@@ -7,7 +7,7 @@ description: Use when user explicitly requests planning with files, or asks for 
 
 Use persistent markdown files as external memory for complex tasks. Files survive context limits and session boundaries.
 
-Use `TodoWrite` to create tasks from phases with linked documents. Before closing session, use `Question` to confirm findings, decisions, and deliverables are satisfactory.
+Use `TodoWrite` to decompose phases into executable tasks. Before closing session, use `Question` to confirm findings, decisions, and deliverables are satisfactory.
 
 ## When to Use
 
@@ -104,35 +104,13 @@ Create files based on what the task needs, not a fixed pattern:
 
 ## Task System Integration
 
-Planning files and tasks serve different stages:
+Planning files are for investigation; TodoWrite tasks are for execution.
 
-| Stage | Tool | Purpose |
-|-------|------|---------|
-| **Investigation** | Planning Files | Research, decisions, rationale, error logs |
-| **Execution** | TodoWrite/TodoRead | Decomposed work items with dependencies |
-
-### Workflow
-
-```
-1. Create _plans/ directory and plan.md
-2. Research and document in planning files
+**Workflow:**
+1. Create `_plans/` directory and `plan.md`
+2. Research and document findings
 3. Make decisions, document rationale
-4. THEN decompose into executable tasks
-5. Link tasks back to planning docs
-```
-
-### Linking Tasks to Planning Documents
-
-Once planning is complete, create todos that reference the planning docs:
-
-```json
-[
-  {"id": "1", "content": "Add OAuth2 login endpoint (see _plans/2026-01-23-auth-api/plan.md)", "status": "pending", "priority": "high"},
-  {"id": "2", "content": "Add token refresh middleware (see _plans/2026-01-23-auth-api/decisions.md)", "status": "pending", "priority": "high"}
-]
-```
-
-Embed plan file references in the `content` field so context is always traceable.
+4. Decompose phases into executable TodoWrite tasks
 
 ## Recommended Tools
 
