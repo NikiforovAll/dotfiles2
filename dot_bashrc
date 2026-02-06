@@ -17,7 +17,7 @@ alias g='git'
 alias docker='podman'
 alias cz='chezmoi'
 alias vault='start obsidian://open?vault=notes'
-alias ctv='npx claude-task-viewer --open'
+alias cck='npx claude-code-kanban --open'
 
 alias ??='opencode run --model google/gemini-3-flash-preview'
 alias ???='opencode run --model google/gemini-3-flash-preview --continue'
@@ -28,6 +28,8 @@ alias ???='opencode run --model google/gemini-3-flash-preview --continue'
 
 # XDG Base Directory Specification, required for nvim
 export XDG_CONFIG_HOME="$HOME/.config"
+
+export MSYS=winsymlinks:nativestrict
 
 ######
 # terminal
