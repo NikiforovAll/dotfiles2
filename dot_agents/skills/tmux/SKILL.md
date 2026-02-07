@@ -10,14 +10,20 @@ Run and manage background processes using tmux.
 
 ## Shell Configuration
 
-**Always use `bash -i -c`** to load `.bashrc` aliases/functions:
+Use `bash -i -c` only when you need shell features (pipes, `&&`, redirects) or `.bashrc` aliases/functions. If the command is a plain executable on PATH, run it directly.
 
 ```bash
-# GOOD - aliases and functions work
-tmux new-window -n server "bash -i -c 'npm run dev'"
+# Needs wrapper - uses pipe
+tmux new-window -n build "bash -i -c 'npm run dev | tee log.txt'"
 
-# BAD - aliases won't load
-tmux new-window -n server "npm run dev"
+# Needs wrapper - uses &&
+tmux new-window -n work "bash -i -c 'cd ../other && npm start'"
+
+# Needs wrapper - relies on alias from .bashrc
+tmux new-window -n server "bash -i -c 'my-alias'"
+
+# No wrapper needed - plain executable on PATH
+tmux new-window -n claude "claude --continue"
 ```
 
 ## Core Concepts
@@ -202,9 +208,111 @@ tmux send-keys -t <name> C-c
 tmux kill-window -t <name>
 ```
 
+## Launch Claude Code in New Tmux Session/Window
+
+```bash
+# New window in current session
+tmux new-window -n "claude" "claude"
+
+# New window with specific working directory (-c sets cwd)
+tmux new-window -n "claude-api" -c /project/api "claude"
+
+# Multi-directory access (--add-dir gives claude access to extra dirs)
+tmux new-window -n "claude-multi" -c /project-a "claude --add-dir /project-b --add-dir /shared/lib"
+
+# New detached session (from outside tmux)
+tmux new-session -d -s ai -n claude -c /project "claude"
+
+# New window resuming a past conversation
+tmux new-window -n "claude-cont" "claude --continue"
+
+# New window with initial prompt
+tmux new-window -n "claude-task" "claude 'explain the auth flow'"
+```
+
+## Launch OpenCode in New Tmux Session/Window
+
+```bash
+# New window
+tmux new-window -n "opencode" "opencode"
+
+# With working directory
+tmux new-window -n "opencode-api" -c /project/api "opencode"
+
+# Resume last session
+tmux new-window -n "opencode-cont" "opencode --continue"
+
+# Resume specific session
+tmux new-window -n "opencode-prev" "opencode --session <session-id>"
+
+# Headless with prompt
+tmux new-window -n "oc-task" "opencode run 'fix failing tests'"
+```
+
+> Note: OpenCode has no `--fork-session` CLI flag. Forking is TUI-only. Use independent sessions for parallel tmux work.
+
+## Session Forking (Parallel Claude Code)
+
+Fork the current Claude Code session into a new tmux pane/window. The fork gets **full conversation context** but a new session ID — both sessions are independent from that point.
+
+### Fork Commands
+
+```bash
+# Fork into side-by-side pane (most common)
+tmux split-window -h "claude --continue --fork-session"
+
+# Fork into new window
+tmux new-window -n "fork-task" "claude --continue --fork-session"
+
+# Fork a specific past session
+tmux new-window -n "fork-old" "claude --resume <session-id> --fork-session"
+```
+
+### Fork with Task (headless)
+
+```bash
+# Fire-and-forget parallel task (pipe needs wrapper)
+tmux new-window -n "tests" "bash -c 'claude -p \"run and fix failing tests\" | tee results.md'"
+
+# Multiple parallel forks (no pipe, no wrapper)
+tmux new-window -n "fix-tests" "claude -p 'fix failing tests'"
+tmux new-window -n "update-docs" "claude -p 'update API docs'"
+```
+
+### Fork with Context Forwarding
+
+```bash
+# Capture context from current pane, pass to new session (pipe needs wrapper)
+CONTEXT=$(tmux capture-pane -p -S -200)
+tmux new-window -n "sub-task" "bash -c 'echo \"$CONTEXT\" | claude -p \"Given this context, do X\"'"
+```
+
+### Fork with Git Worktrees (write-heavy parallel work)
+
+```bash
+# Create isolated worktrees to avoid conflicts
+git worktree add ../feature-a feature-a
+git worktree add ../feature-b feature-b
+
+# Launch parallel sessions in each (-c sets working dir, no wrapper needed)
+tmux new-window -n "feat-a" -c ../feature-a "claude"
+tmux new-window -n "feat-b" -c ../feature-b "claude"
+```
+
+### Key Flags
+
+| Flag | Purpose |
+|------|---------|
+| `--continue` | Resume most recent session in current dir |
+| `--resume <id>` | Resume specific session by ID |
+| `--fork-session` | Create new session ID (use with `--continue` or `--resume`) |
+| `-p` / `--print` | Non-interactive, print response and exit |
+
 ## Key Reminders
 
-1. **Always `bash -i -c`** - For aliases/functions to work
+1. **`bash -i -c` only when needed** - For pipes, `&&`, redirects, or aliases
 2. **Omit `-t session`** - Current session is default when inside tmux
 3. **Name windows** - Easy to target later with `-t name`
 4. **Capture before kill** - Save output if needed
+5. **Use `--fork-session`** - To branch off a session without mutating the original
+6. **Use git worktrees** - For parallel write-heavy forks to avoid conflicts
