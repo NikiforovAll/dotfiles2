@@ -150,7 +150,12 @@ rfzf() {
 }
 
 cwt() {
-  local dir=$(g wtl | fzf | awk '{print $1}')
+  local selection=$(git worktree list | fzf \
+    --header "ENTER=cd | CTRL-Y=copy path | CTRL-D=remove worktree" \
+    --bind "ctrl-y:execute-silent(echo -n {1} | clip)+abort" \
+    --bind "ctrl-d:execute(git worktree remove {1})+reload(git worktree list)" \
+    --no-mouse)
+  local dir=$(echo "$selection" | awk '{print $1}')
   [[ -n "$dir" ]] && cd "$dir"
 }
 
