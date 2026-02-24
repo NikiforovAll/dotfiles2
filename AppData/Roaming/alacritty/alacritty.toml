@@ -1,2 +1,2 @@
 [general]
-import = ["C:/Users/nikiforovall/.config/alacritty/alacritty.toml"]
+import = ["~/.config/alacritty/alacritty.toml"]
