@@ -118,10 +118,32 @@ export FZF_CTRL_T_OPTS="
     --bind 'ctrl-/:change-preview-window(down|)'"
 
 # CTRL-Y to copy the command into clipboard using pbcopy
-export FZF_CTRL_R_OPTS=" 
+export FZF_CTRL_R_OPTS="
     --bind 'ctrl-y:execute-silent(echo -n {2..} | clip)+abort'
     --color header:italic
-    --header 'Press CTRL-Y to copy command into clipboard'"
+    --header 'Press CTRL-Y to copy command into clipboard'
+    --no-sort"
+
+_fzf_history_dedup() {
+    builtin history -a
+    builtin history -c
+    builtin history -r
+    READLINE_LINE=$(
+        HISTTIMEFORMAT='' builtin history |
+        sed 's/^ *[0-9]* *//' |
+        awk '!seen[$0]++' |
+        fzf --tac --no-sort --scheme=history \
+            --bind 'ctrl-y:execute-silent(echo -n {} | clip)+abort' \
+            --color header:italic \
+            --header 'Press CTRL-Y to copy command into clipboard' \
+            --query "$READLINE_LINE"
+    ) || true
+    READLINE_POINT=${#READLINE_LINE}
+}
+
+if [[ $- == *i* ]]; then
+    bind -x '"\C-r": _fzf_history_dedup'
+fi
 
 # Print tree structure in the preview window
 export FZF_ALT_C_OPTS="--walker-skip .git,node_modules,target,bin,obj"
