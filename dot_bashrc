@@ -31,6 +31,9 @@ export XDG_CONFIG_HOME="$HOME/.config"
 
 export MSYS=winsymlinks:nativestrict
 
+# Enable UTF-8 mode for Python 3
+export PYTHONUTF8=1
+
 ######
 # terminal
 ######
