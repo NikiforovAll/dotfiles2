@@ -79,6 +79,20 @@ t() {
   fi
 }
 
+# Tmux New Window Function
+# Usage: tw [folder] - create new tmux window named after folder (default: current dir)
+tw() {
+  local target_dir="${1:-$PWD}"
+  local window_name=$(basename "$target_dir" | tr . _)
+
+  if [ -z "$TMUX" ]; then
+    echo "Not in a tmux session"
+    return 1
+  fi
+
+  tmux new-window -n "$window_name" -c "$target_dir"
+}
+
 ######
 # editor
 ######
