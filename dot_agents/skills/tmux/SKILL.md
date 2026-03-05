@@ -1,7 +1,6 @@
 ---
 name: tmux
 description: Run dev servers and background processes in tmux windows.
-allowed-tools: Bash(tmux:*)
 ---
 
 # Tmux Session Manager
@@ -207,6 +206,22 @@ To stop:
 tmux send-keys -t <name> C-c
 tmux kill-window -t <name>
 ```
+
+### Launching Claude Code for a Task
+
+When user asks to start a new Claude Code window/session for a task:
+
+**IMPORTANT**: Always launch Claude Code in **interactive mode** (no `-p` flag) with an initial prompt string. The `-p`/`--print` flag makes Claude non-interactive (prints one response and exits), which is NOT what users want for research or multi-step tasks.
+
+```bash
+# Interactive session with initial task prompt (DEFAULT - use this)
+tmux new-window -n "research" -c /project "claude 'your task description here'"
+
+# WRONG - do NOT use -p for interactive tasks
+# tmux new-window -n "research" "claude -p 'task'"  # exits after one response!
+```
+
+Use `-p` only when explicitly asked for fire-and-forget headless execution.
 
 ## Launch Claude Code in New Tmux Session/Window
 
