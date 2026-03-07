@@ -61,10 +61,19 @@ fix_mouse() {
 
 
 # Tmux Smart Attach/Create Function
-# Usage: t [folder] - attach/create tmux session named after folder (default: current dir)
+# Usage: t [-n name] [folder] - attach/create tmux session named after folder (default: current dir)
 t() {
+  local name_override=""
+  local OPTIND=1
+  while getopts "n:" opt; do
+    case $opt in
+      n) name_override="$OPTARG" ;;
+    esac
+  done
+  shift $((OPTIND - 1))
+
   local target_dir="${1:-$PWD}"
-  local session_name=$(basename "$target_dir" | tr . _)
+  local session_name="${name_override:-$(basename "$target_dir" | tr . _)}"
 
   if tmux has-session -t "$session_name" 2>/dev/null; then
     if [ -n "$TMUX" ]; then
@@ -83,10 +92,19 @@ t() {
 }
 
 # Tmux New Window Function
-# Usage: tw [folder] - create new tmux window named after folder (default: current dir)
+# Usage: tw [-n name] [folder] - create new tmux window named after folder (default: current dir)
 tw() {
+  local name_override=""
+  local OPTIND=1
+  while getopts "n:" opt; do
+    case $opt in
+      n) name_override="$OPTARG" ;;
+    esac
+  done
+  shift $((OPTIND - 1))
+
   local target_dir="${1:-$PWD}"
-  local window_name=$(basename "$target_dir" | tr . _)
+  local window_name="${name_override:-$(basename "$target_dir" | tr . _)}"
 
   if [ -z "$TMUX" ]; then
     echo "Not in a tmux session"
