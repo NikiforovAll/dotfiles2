@@ -213,12 +213,21 @@ When user asks to start a new Claude Code window/session for a task:
 
 **IMPORTANT**: Always launch Claude Code in **interactive mode** (no `-p` flag) with an initial prompt string. The `-p`/`--print` flag makes Claude non-interactive (prints one response and exits), which is NOT what users want for research or multi-step tasks.
 
+**IMPORTANT**: Always use `--name` (`-n`) to give the Claude session a friendly **kebab-case** name. This makes sessions easy to find in `/resume` and terminal titles. Derive the name from the task purpose.
+
 ```bash
-# Interactive session with initial task prompt (DEFAULT - use this)
-tmux new-window -n "research" -c /project "claude 'your task description here'"
+# Interactive session with named session and initial task prompt (DEFAULT - use this)
+tmux new-window -n "research" -c /project "claude --name fix-login-bug 'your task description here'"
+
+# Multiple parallel tasks with descriptive names
+tmux new-window -n "feat-a" -c /project "claude --name add-syntax-highlight 'Add syntax highlighting to tool output'"
+tmux new-window -n "feat-b" -c /project "claude --name fix-hover-state 'Fix the hover state on agent cards'"
 
 # WRONG - do NOT use -p for interactive tasks
 # tmux new-window -n "research" "claude -p 'task'"  # exits after one response!
+
+# WRONG - no session name (hard to find later in /resume)
+# tmux new-window -n "task1" -c /project "claude 'do something'"
 ```
 
 Use `-p` only when explicitly asked for fire-and-forget headless execution.
@@ -226,23 +235,23 @@ Use `-p` only when explicitly asked for fire-and-forget headless execution.
 ## Launch Claude Code in New Tmux Session/Window
 
 ```bash
-# New window in current session
-tmux new-window -n "claude" "claude"
+# New window with named session (RECOMMENDED - always name sessions)
+tmux new-window -n "claude" "claude --name my-feature-work"
 
 # New window with specific working directory (-c sets cwd)
-tmux new-window -n "claude-api" -c /project/api "claude"
+tmux new-window -n "claude-api" -c /project/api "claude --name api-refactor"
 
 # Multi-directory access (--add-dir gives claude access to extra dirs)
-tmux new-window -n "claude-multi" -c /project-a "claude --add-dir /project-b --add-dir /shared/lib"
+tmux new-window -n "claude-multi" -c /project-a "claude --name cross-repo-work --add-dir /project-b --add-dir /shared/lib"
 
 # New detached session (from outside tmux)
-tmux new-session -d -s ai -n claude -c /project "claude"
+tmux new-session -d -s ai -n claude -c /project "claude --name background-task"
 
 # New window resuming a past conversation
 tmux new-window -n "claude-cont" "claude --continue"
 
-# New window with initial prompt
-tmux new-window -n "claude-task" "claude 'explain the auth flow'"
+# New window with initial prompt and named session
+tmux new-window -n "claude-task" "claude --name explain-auth 'explain the auth flow'"
 ```
 
 ## Launch OpenCode in New Tmux Session/Window
@@ -318,6 +327,7 @@ tmux new-window -n "feat-b" -c ../feature-b "claude"
 
 | Flag | Purpose |
 |------|---------|
+| `-n` / `--name <name>` | Set a display name for the session (shown in `/resume` and terminal title). **Always use kebab-case.** |
 | `--continue` | Resume most recent session in current dir |
 | `--resume <id>` | Resume specific session by ID |
 | `--fork-session` | Create new session ID (use with `--continue` or `--resume`) |
