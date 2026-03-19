@@ -1,5 +1,4 @@
-.claude/settings.local.json
-CLAUDE.local.md
+.claude/**/*.local.*
 .config/wt.toml
 NUL
 _plans
