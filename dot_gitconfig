@@ -151,6 +151,10 @@
 [credential]
     helper = store
 
+# Force SSH for git.epam.com (glab fetches fork MRs via HTTPS otherwise)
+[url "git@git.epam.com:"]
+    insteadOf = "https://git.epam.com/"
+
 # URL shorthands
 # See `git help config` and search for "url.<base>"
 # gh: is a shorthand for git@github.com
