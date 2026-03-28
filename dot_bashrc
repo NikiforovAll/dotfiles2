@@ -1,6 +1,8 @@
 alias l='lsd -l'
 alias d=dotnet
 alias cc=claude
+alias ccch='claude --channels plugin:telegram@claude-plugins-official'
+alias cct='claude --teammate-mode in-process'
 alias oc='safe_tui opencode'
 alias co='copilot'
 alias oce='OPENCODE_EXPERIMENTAL_PLAN_MODE=1 safe_tui opencode'
@@ -17,6 +19,7 @@ alias docker='podman'
 alias cz='chezmoi'
 alias vault='start obsidian://open?vault=notes'
 alias cck='npx claude-code-kanban'
+alias ccm='npx claude-code-marketplace'
 
 alias ??='opencode run --model google/gemini-3-flash-preview'
 alias ???='opencode run --model google/gemini-3-flash-preview --continue'

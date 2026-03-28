@@ -1,6 +1,9 @@
+.claude/settings.local.json
 .claude/**/*.local.*
+CLAUDE.local.md
 .config/wt.toml
 NUL
 _plans
+_scratchpad
 _research
 .vscode
