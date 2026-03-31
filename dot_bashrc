@@ -93,6 +93,14 @@ t() {
   fi
 }
 
+# Tmux Dev Session Picker - fzf select from ~/dev, attach/create session
+tdev() {
+  local dir
+  dir=$(fd . ~/dev -d 1 -t d | sed 's|C:/|/c/|i;s|/$||' | fzf --reverse)
+  [[ -z "$dir" ]] && return 0
+  t "$dir"
+}
+
 # Tmux New Window Function
 # Usage: tw [-n name] [folder] - create new tmux window named after folder (default: current dir)
 tw() {
