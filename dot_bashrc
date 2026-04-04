@@ -20,6 +20,8 @@ alias cz='chezmoi'
 alias vault='start obsidian://open?vault=notes'
 alias cck='npx claude-code-kanban'
 alias ccm='npx claude-code-marketplace'
+alias ccc='npx claude-code-cost'
+alias cch='npx claude-code-hub'
 
 alias ??='opencode run --model google/gemini-3-flash-preview'
 alias ???='opencode run --model google/gemini-3-flash-preview --continue'
@@ -77,16 +79,16 @@ t() {
   local target_dir="${1:-$PWD}"
   local session_name="${name_override:-$(basename "$target_dir" | tr . _)}"
 
-  if tmux has-session -t "$session_name" 2>/dev/null; then
+  if tmux has-session -t "=$session_name" 2>/dev/null; then
     if [ -n "$TMUX" ]; then
-      tmux switch-client -t "$session_name"
+      tmux switch-client -t "=$session_name"
     else
-      tmux attach-session -t "$session_name"
+      tmux attach-session -t "=$session_name"
     fi
   else
     if [ -n "$TMUX" ]; then
       tmux new-session -d -s "$session_name" -c "$target_dir"
-      tmux switch-client -t "$session_name"
+      tmux switch-client -t "=$session_name"
     else
       tmux new-session -s "$session_name" -c "$target_dir"
     fi

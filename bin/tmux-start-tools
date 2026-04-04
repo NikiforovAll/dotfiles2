@@ -8,10 +8,10 @@ if tmux has-session -t "$SESSION" 2>/dev/null; then
   exit 0
 fi
 
-tmux new-session -d -s "$SESSION" -c ~/dev/cck -n cck
-tmux send-keys -t "$SESSION:cck" 'npm start' Enter
+tmux new-session -d -s "$SESSION" -c ~/dev/claude-code-hub -n hub
+tmux send-keys -t "$SESSION:hub" 'npm start' Enter
 
-tmux new-window -t "$SESSION" -c ~/dev/claude-code-marketplace -n marketplace
-tmux send-keys -t "$SESSION:marketplace" 'npm start' Enter
+# tmux new-window -t "$SESSION" -c ~/dev/claude-code-marketplace -n marketplace
+# tmux send-keys -t "$SESSION:marketplace" 'npm start' Enter
 
 echo "Session '$SESSION' started (cck + marketplace)"
