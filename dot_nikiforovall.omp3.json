@@ -17,7 +17,7 @@
           "foreground": "#ff94df",
           "properties": {
             "branch_icon": " <#ff94df><b>\ue0a0 </b></>",
-            "fetch_status": true
+            "fetch_status": false
           },
           "style": "plain",
           "template": "<#ffffff>on</> {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} <#f0c674>!{{ .Working.String }}</>{{ end }}{{ if .Staging.Changed }} <#8abeb7>+{{ .Staging.String }}</>{{ end }}",
