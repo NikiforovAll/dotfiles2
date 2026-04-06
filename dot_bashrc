@@ -221,6 +221,7 @@ PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 ######
 __git_branch() {
     local head gitdir=".git"
+    [[ -e "$gitdir" ]] || return
     # Support submodules where .git is a file pointing to the real gitdir
     if [[ -f "$gitdir" ]]; then
         read -r _ gitdir < "$gitdir"
