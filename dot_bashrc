@@ -37,6 +37,7 @@ alias oce='OPENCODE_EXPERIMENTAL_PLAN_MODE=1 safe_tui opencode'
 alias ocm='bunx opencode-marketplace'
 alias ccsp='claude --dangerously-skip-permissions'
 alias c=code
+alias vsci='code-insiders'
 alias bashrc='code ~/.bashrc'
 alias lg='lazygit'
 alias ld='lazydocker'
