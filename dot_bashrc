@@ -31,6 +31,7 @@ alias l='lsd -l'
 alias d=dotnet
 alias cc=claude
 alias ccch='claude --channels plugin:telegram@claude-plugins-official'
+alias ccf='claude --fork-session'
 alias oc='safe_tui opencode'
 alias co='copilot'
 alias oce='OPENCODE_EXPERIMENTAL_PLAN_MODE=1 safe_tui opencode'
