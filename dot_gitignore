@@ -7,3 +7,7 @@ _plans
 _scratchpad
 _research
 .playwright-cli
+*.lscache
+**/*deps.json
+**/*.dll
+**/bin-isolated/*
