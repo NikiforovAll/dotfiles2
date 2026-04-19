@@ -136,7 +136,7 @@ case "${1:-pick}" in
       --bind "ctrl-x:change-prompt(dirs> )+reload($ZOX_CMD)" \
       --bind "ctrl-a:change-prompt(all>  )+reload($ALL_CMD)" \
       --bind "alt-w:change-prompt(tree> )+reload(bash $SESH_SCRIPT list-worktrees {})" \
-      --bind "ctrl-d:execute-silent(bash $SESH_SCRIPT kill {})+reload($ALL_CMD)")
+      --bind "ctrl-d:execute-silent(bash $SESH_SCRIPT kill {})+reload($TMUX_CMD)")
     connect "$choice"
     ;;
 esac
