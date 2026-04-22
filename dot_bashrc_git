@@ -67,10 +67,11 @@ gitw() {
 if [[ $- = *i* ]]
 then
   bind '"\er": redraw-current-line'
-  bind '"\C-g\C-f": "$(gitf)\e\C-e\er"'
-  bind '"\C-g\C-b": "$(gitb)\e\C-e\er"'
-  bind '"\C-g\C-t": "$(gitt)\e\C-e\er"'
-  bind '"\C-g\C-h": "$(gith)\e\C-e\er"'
-  bind '"\C-g\C-r": "$(gitr)\e\C-e\er"'
-  bind '"\C-g\C-w": "$(gitw)\e\C-e\er"'
+  bind '"\C-gf": "$(gitf)\e\C-e\er"'
+  bind '"\C-gb": "$(gitb)\e\C-e\er"'
+  bind '"\C-gt": "$(gitt)\e\C-e\er"'
+  bind '"\C-gh": "$(gith)\e\C-e\er"'
+  bind '"\C-gr": "$(gitr)\e\C-e\er"'
+  bind '"\C-gw": "$(gitw)\e\C-e\er"'
+  bind '"\eb": "git switch $(gitbr)\C-m"'
 fi

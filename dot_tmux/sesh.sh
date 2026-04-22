@@ -76,7 +76,7 @@ list_worktrees() {
   out=$(git -C "$target" worktree list 2>/dev/null \
     | awk '{print $1}' \
     | tr '\\' '/' \
-    | sed -e "s|^${HOME_WIN}|~|" -e "s|^${HOME_UNIX}|~|")
+    | sed -e "s|^${HOME_WIN}|~|" -e "s|^${HOME_UNIX}|~|" || true)
   if [[ -z "$out" ]]; then list; else printf '%s\n' "$out"; fi
 }
 
