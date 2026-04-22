@@ -27,7 +27,8 @@ connect() {
   local target="${1:-}" name path
   [[ -z "$target" ]] && exit 0
 
-  target=$(printf '%s\n' "$target" | strip_marker)
+  target=$(printf '%s\n' "$target" | strip_marker | sed $'s/\033\\[[0-9;]*m//g')
+  target="${target% \[*\]}"
 
   [[ "$target" == "~" || "$target" == "~/"* ]] && target="${HOME}${target#\~}"
 
@@ -74,7 +75,13 @@ list_worktrees() {
 
   local out
   out=$(git -C "$target" worktree list 2>/dev/null \
-    | awk '{print $1}' \
+    | awk '{
+        path=$1;
+        branch="";
+        for (i=NF; i>=2; i--) if ($i ~ /^\[.*\]$/) { branch=$i; break }
+        if (branch=="") branch="[detached]";
+        printf "%s \033[38;5;109m%s\033[0m\n", path, branch
+      }' \
     | tr '\\' '/' \
     | sed -e "s|^${HOME_WIN}|~|" -e "s|^${HOME_UNIX}|~|" || true)
   if [[ -z "$out" ]]; then list; else printf '%s\n' "$out"; fi
@@ -127,7 +134,7 @@ case "${1:-pick}" in
     TMUX_CMD="tmux list-sessions -F '#{?session_attached,* ,  }#{session_name}' 2>/dev/null | sort -k1,1r -k2"
     ZOX_CMD="zoxide query -l 2>/dev/null | tr '\\\\' '/' | sed -e 's|^${HOME_WIN}|~|' -e 's|^${HOME_UNIX}|~|'"
     ALL_CMD="{ ${TMUX_CMD}; ${ZOX_CMD}; } | awk 'NF && !seen[\$0]++'"
-    choice=$(FZF_DEFAULT_COMMAND="$TMUX_CMD" fzf --reverse --prompt='tmux> ' \
+    choice=$(FZF_DEFAULT_COMMAND="$TMUX_CMD" fzf --ansi --reverse --prompt='tmux> ' \
       --preview "bash $SESH_SCRIPT preview {}" \
       --preview-window='right,50%,border-left,hidden' \
       --bind "ctrl-p:change-preview(bash $SESH_SCRIPT preview {})+toggle-preview" \
