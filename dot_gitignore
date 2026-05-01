@@ -1,6 +1,8 @@
 .claude/settings.local.json
 .claude/**/*.local.*
 .claude/worktrees/*
+.claude/agent-memory-local
+.claude/*.lock
 CLAUDE.local.md
 .config/wt.toml
 NUL
