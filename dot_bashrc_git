@@ -24,12 +24,25 @@ gitb() {
     sed 's#^remotes/[^/]*/##'
 }
 
-# Git branches including remote branches
+# Git branches including remote branches (remotes on top, locals sorted by committerdate)
 gitbr() {
-  is_in_git_repo &&
-    git branch -a -vv --color=always | grep -v '/HEAD\s' |
-    fzf --height 40% --ansi --multi --tac | sed 's/^..//' | awk '{print $1}' |
-    sed 's#^remotes/[^/]*/##'
+  is_in_git_repo || return
+  local tracked
+  tracked=$(git for-each-ref --format='%(upstream)' refs/heads)
+  git for-each-ref --sort=-committerdate --color=always \
+    --format='%(refname)%00%(refname:short)%00%(committerdate:relative)%00%(contents:subject)' \
+    refs/heads refs/remotes |
+    awk -F'\0' -v tracked="$tracked" '
+      BEGIN { n=split(tracked, a, "\n"); for (i=1;i<=n;i++) if (a[i]!="") seen[a[i]]=1 }
+      $1 ~ /\/HEAD$/ { next }
+      $1 ~ /^refs\/remotes\// {
+        if (seen[$1]) next
+        sub(/^[^\/]+\//, "", $2)
+        printf "\033[31m%s\033[0m %s %s\n", $2, $3, $4; next
+      }
+      { printf "\033[32m%s\033[0m %s %s\n", $2, $3, $4 }
+    ' |
+    fzf --ansi --multi --no-sort | awk '{print $1}'
 }
 
 # Git tags
