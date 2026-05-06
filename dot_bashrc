@@ -30,8 +30,8 @@ export FZF_ALT_C_OPTS="--walker-skip .git,node_modules,target,bin,obj"
 alias l='lsd -l'
 alias d=dotnet
 alias cc=claude
-alias ccch='claude --channels plugin:telegram@claude-plugins-official'
 alias ccf='claude --fork-session'
+alias ccr='claude --resume'
 alias oc='safe_tui opencode'
 alias co='copilot'
 alias oce='OPENCODE_EXPERIMENTAL_PLAN_MODE=1 safe_tui opencode'
@@ -48,12 +48,11 @@ alias g='git'
 alias docker='podman'
 alias cz='chezmoi'
 alias vault='start obsidian://open?vault=notes'
-alias cck='npx claude-code-kanban'
+alias cck='claude-code-kanban'
 alias ccm='npx claude-code-marketplace'
 alias ccc='npx claude-code-cost'
 alias cch='npx claude-code-hub'
-alias ??='opencode run --model google/gemini-3-flash-preview'
-alias ???='opencode run --model google/gemini-3-flash-preview --continue'
+alias pid='PI_CODING_AGENT_DIR='~/dev/pi-tutorial/.pi' pi'
 alias wtc='wt -w 0 -d $(pwd) --title "$(basename $(pwd))"'
 alias fzfd='fd --type d --strip-cwd-prefix | fzf'
 
@@ -239,3 +238,13 @@ PROMPT_COMMAND='PS1="\[\e[36m\]\W\[\e[0m\]$(__git_branch)\n\[\e[92m\]❯\[\e[0m\
 
 # Set terminal title to current directory on load
 echo -ne "\033]0;$(basename "$PWD")\007"
+
+# kcc — pick an active Claude Code session via fzf and resume it with `claude --resume`
+kcc() {
+  local sel id
+  local cmd="claude-code-kanban session list --active --limit all --project $(basename "$PWD") --json | jq -r '.[] | \"\\(.id)  \\(.customTitle // .name // .slug // .id)\"'"
+  sel=$(FZF_DEFAULT_COMMAND="$cmd" fzf) || return
+  id="${sel%% *}"
+  [ -z "$id" ] && return
+  claude --resume "$id" "$@"
+}
