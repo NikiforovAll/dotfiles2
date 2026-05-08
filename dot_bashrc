@@ -52,7 +52,6 @@ alias cck='claude-code-kanban'
 alias ccm='npx claude-code-marketplace'
 alias ccc='npx claude-code-cost'
 alias cch='npx claude-code-hub'
-alias pid='PI_CODING_AGENT_DIR='~/dev/pi-tutorial/.pi' pi'
 alias wtc='wt -w 0 -d $(pwd) --title "$(basename $(pwd))"'
 alias fzfd='fd --type d --strip-cwd-prefix | fzf'
 
