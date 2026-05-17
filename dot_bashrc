@@ -49,11 +49,10 @@ alias docker='podman'
 alias cz='chezmoi'
 alias vault='start obsidian://open?vault=notes'
 alias cck='claude-code-kanban'
-alias ccm='npx claude-code-marketplace'
-alias ccc='npx claude-code-cost'
 alias cch='npx claude-code-hub'
 alias wtc='wt -w 0 -d $(pwd) --title "$(basename $(pwd))"'
 alias fzfd='fd --type d --strip-cwd-prefix | fzf'
+alias h='safe_tui hunk'
 
 ######
 # terminal
