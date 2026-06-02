@@ -15,3 +15,4 @@ _research
 **/*.dll
 **/bin-isolated/*
 **/*.sarif
+**/.claude/settings.local.json

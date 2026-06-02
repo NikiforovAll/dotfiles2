@@ -246,3 +246,9 @@ kcc() {
   [ -z "$id" ] && return
   claude --resume "$id" "$@"
 }
+
+# Added by get-aspire-cli.sh
+export PATH="$HOME/.aspire/bin:$PATH"
+
+# Run one-off .NET tools (dnx.cmd is not executable in Git Bash)
+alias dnx='dotnet tool exec'

@@ -43,6 +43,7 @@
     st = status
     co = checkout
     cob = checkout -b
+    cod = checkout develop
     # list branches sorted by last modified
     bm = "!git for-each-ref --sort='-authordate' --format='%(authordate)%09%(objectname:short)%09%(refname)' refs/heads | sed -e 's-refs/heads/--'"
 
@@ -113,7 +114,7 @@
 [core]
     autocrlf = false
     editor = code --wait
-    pager = diff-so-fancy | less --tabs=4 -RFX
+	pager = hunk pager
     ignorecase = true
     sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
     excludesfile = "~/.gitignore"

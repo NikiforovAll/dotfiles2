@@ -35,7 +35,7 @@ bindings = [
     { key = 'PageDown', mods = "Control", action = 'ScrollToBottom' },
     # Forward Alt+Enter to pi as ESC+CR (legacy alt encoding) for app.message.followUp.
     # Overrides Alacritty's default ToggleFullscreen on this combo.
-    { key = "Return", mods = "Alt", chars = "\u001b\r" },
+    { key = "Return", mods = "Alt", chars = "\r" },
     # Layout-independent Paste/Copy via scancode (Windows: V=47, C=46).
     # Disable default keysym bindings to avoid double-fire on EN layout.
     { key = "V", mods = "Control|Shift", action = "None" },
