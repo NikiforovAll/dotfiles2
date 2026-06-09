@@ -27,6 +27,8 @@ export FZF_ALT_C_OPTS="--walker-skip .git,node_modules,target,bin,obj"
 ######
 # aliases
 ######
+alias ..='cd ..'
+alias ...='cd ../..'
 alias l='lsd -l'
 alias d=dotnet
 alias cc=claude
@@ -49,6 +51,7 @@ alias docker='podman'
 alias cz='chezmoi'
 alias vault='start obsidian://open?vault=notes'
 alias cck='claude-code-kanban'
+alias cs='cswap'
 alias cch='npx claude-code-hub'
 alias wtc='wt -w 0 -d $(pwd) --title "$(basename $(pwd))"'
 alias fzfd='fd --type d --strip-cwd-prefix | fzf'
@@ -247,8 +250,3 @@ kcc() {
   claude --resume "$id" "$@"
 }
 
-# Added by get-aspire-cli.sh
-export PATH="$HOME/.aspire/bin:$PATH"
-
-# Run one-off .NET tools (dnx.cmd is not executable in Git Bash)
-alias dnx='dotnet tool exec'

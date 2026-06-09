@@ -7,7 +7,7 @@ CLAUDE.local.md
 .config/wt.toml
 NUL
 _plans
-_scratchpad
+_scratchpads
 _research
 .playwright-cli
 *.lscache
