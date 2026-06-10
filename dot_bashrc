@@ -183,6 +183,29 @@ function fzfp() {
     echo "$PROJECTS" | fzf --preview "bat --style=numbers --color=always --line-range :500 {} -l xml"
 }
 
+# scratch pad picker — fzf-select a pad under $PWD (or arg root), open in viewer.
+# Passes the pad NAME (not a path) back to scratch, which resolves it internally —
+# keeps Windows paths out of the shell round-trip.
+alias sch='scratch'
+
+sui() {
+    local root="${1:-$PWD}" names name
+    # Drain the native producers (bun/scratch, jq) FULLY before launching fzf.
+    # Piping Windows-native procs straight into fzf on Git Bash leaks a console
+    # handle down the chain and fzf can't own the tty for keyboard input. Feeding
+    # fzf from the printf builtin (after the procs have exited) is the clean case.
+    names=$(scratch ls --dir "$root" --json | jq -r '.pads | sort_by(.updated) | reverse | .[].name' | tr -d '\r')
+    [[ -z "$names" ]] && return 0
+    # fzf previews are lazy: the preview runs only for the focused item and is
+    # cached per item. Spawning scratch (bun) here is fine — preview stdout is
+    # captured by fzf and never touches the keyboard tty that nav depends on.
+    name=$(printf '%s\n' "$names" \
+           | fzf --reverse --prompt 'pad> ' \
+                 --preview "scratch ls {} --dir '$root'" \
+                 --preview-window 'right,55%') || return 0
+    scratch ui "$name" --dir "$root"
+}
+# fzf for searching file contents with rg, preview with bat, and copy path:line to clipboard with ctrl-y
 rfzf() {
     fzf --disabled --ansi --query "$*" \
         --height 90% \
@@ -240,13 +263,31 @@ PROMPT_COMMAND='PS1="\[\e[36m\]\W\[\e[0m\]$(__git_branch)\n\[\e[92m\]❯\[\e[0m\
 # Set terminal title to current directory on load
 echo -ne "\033]0;$(basename "$PWD")\007"
 
-# kcc — pick an active Claude Code session via fzf and resume it with `claude --resume`
-kcc() {
-  local sel id
-  local cmd="claude-code-kanban session list --active --limit all --project $(basename "$PWD") --json | jq -r '.[] | \"\\(.id)  \\(.customTitle // .name // .slug // .id)\"'"
-  sel=$(FZF_DEFAULT_COMMAND="$cmd" fzf) || return
-  id="${sel%% *}"
-  [ -z "$id" ] && return
-  claude --resume "$id" "$@"
+# azt — switch Azure CLI between profiles via isolated config dirs (convention-based).
+# Convention: profile <name> lives in ~/.azure-<name>; 'home' (or no arg) = default ~/.azure.
+# Each profile keeps its own token cache + active subscription (no cross-contamination).
+# Create a new profile just by switching to it and logging in — nothing to hardcode:
+#   azt work && az login --use-device-code [--allow-no-subscriptions]
+# Usage:
+#   azt          -> show current profile
+#   azt ls       -> list existing profiles
+#   azt home     -> default ~/.azure (current EPAM login)
+#   azt <name>   -> switch to ~/.azure-<name> (creates on first login)
+azt() {
+  case "$1" in
+    "")
+      local cur="${AZURE_CONFIG_DIR##*/.azure-}"
+      [ -z "$AZURE_CONFIG_DIR" ] && cur="home"
+      echo "active: $cur  (${AZURE_CONFIG_DIR:-$HOME/.azure})"; return ;;
+    ls)
+      echo "home  ($HOME/.azure)"
+      for d in "$HOME"/.azure-*/; do
+        [ -d "$d" ] && echo "${d%/}" | sed "s|$HOME/.azure-|  |"
+      done; return ;;
+    home) unset AZURE_CONFIG_DIR ;;
+    *)    export AZURE_CONFIG_DIR="$HOME/.azure-$1" ;;
+  esac
+  echo "profile -> ${1:-home}  (${AZURE_CONFIG_DIR:-$HOME/.azure})"
+  az account show --query '{tenant:tenantId, user:user.name, sub:name}' -o table 2>/dev/null \
+    || echo "(not logged in here yet -> run: az login --use-device-code --allow-no-subscriptions)"
 }
-
