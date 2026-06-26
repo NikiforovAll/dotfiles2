@@ -19,3 +19,5 @@ export PATH="$HOME/.aspire/bin:$PATH"
 
 # Run one-off .NET tools (dnx.cmd is not executable in Git Bash)
 alias dnx='dotnet tool exec'
+# Added by @codemieai/code
+export PATH="C:\Users\nikiforovall\AppData\Roaming\npm\bin:$PATH"

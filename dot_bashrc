@@ -31,6 +31,7 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias l='lsd -l'
 alias d=dotnet
+alias n=npm
 alias cc=claude
 alias ccf='claude --fork-session'
 alias ccr='claude --resume'
@@ -203,7 +204,23 @@ sui() {
            | fzf --reverse --prompt 'pad> ' \
                  --preview "scratch ls {} --dir '$root'" \
                  --preview-window 'right,55%') || return 0
-    scratch ui "$name" --dir "$root"
+    # scratch ui is a native Windows exe that opens a glimpse window. Backgrounding it
+    # with `& ; disown` is doubly wrong: (1) disown only suppresses bash's SIGHUP — the
+    # process stays bound to the Windows console and dies when the terminal/tmux pane
+    # closes; (2) it keeps holding the console input handle, so the *next* sui's fzf
+    # can't own the tty (hung cursor, no selection). Start-Process spawns a fully
+    # independent Windows process — survives shell close AND frees the tty.
+    # Two MSYS gotchas when crossing into PowerShell:
+    #   - cygpath -w: PowerShell isn't MSYS-aware; an unconverted /c/... dir lands as
+    #     C:\c\... in the native exe. (bash auto-converts only when calling exes directly.)
+    #   - single ArgumentList string with the pad name double-quoted: Start-Process does
+    #     NOT quote array elements, so a name with spaces would split into separate args.
+    local root_win argstr
+    root_win=$(cygpath -w "$root")
+    argstr="ui \"$name\" --dir \"$root_win\""
+    # -WindowStyle Hidden suppresses scratch.exe's own (empty) console window; glimpse
+    # is a separate process so its UI window still shows.
+    powershell -NoProfile -Command "Start-Process -WindowStyle Hidden -FilePath 'scratch' -ArgumentList '$argstr'"
 }
 # fzf for searching file contents with rg, preview with bat, and copy path:line to clipboard with ctrl-y
 rfzf() {

@@ -16,3 +16,8 @@ _research
 **/bin-isolated/*
 **/*.sarif
 **/.claude/settings.local.json
+
+# SQLite databases (sideshow local store, etc.)
+*.db
+*.db-shm
+*.db-wal
