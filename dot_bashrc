@@ -29,6 +29,7 @@ export FZF_ALT_C_OPTS="--walker-skip .git,node_modules,target,bin,obj"
 ######
 alias ..='cd ..'
 alias ...='cd ../..'
+e() { explorer "$(cygpath -w "${1:-.}")" & disown; }
 alias l='lsd -l'
 alias d=dotnet
 alias n=npm
