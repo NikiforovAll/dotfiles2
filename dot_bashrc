@@ -4,8 +4,8 @@
 export XDG_CONFIG_HOME="$HOME/.config"
 export MSYS=winsymlinks:nativestrict
 export PYTHONUTF8=1
-export EDITOR="code --wait"
-export VISUAL="code --wait"
+export EDITOR="code"
+export VISUAL="code"
 
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
 export FZF_CTRL_T_OPTS="
