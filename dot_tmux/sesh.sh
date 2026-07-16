@@ -122,6 +122,7 @@ help() {
   Alt-w       git worktrees of highlighted
   Ctrl-d      kill highlighted session
   Ctrl-p      toggle preview
+  Alt-u/d     scroll preview
   ?           toggle this help
   Esc         cancel
 EOF
@@ -132,7 +133,9 @@ preview() {
   [[ -z "$target" ]] && return 0
   target=$(printf '%s\n' "$target" | strip_marker)
   if tmux has-session -t="$target" 2>/dev/null; then
-    tmux capture-pane -ept "$target" -p 2>/dev/null
+    # Strip trailing blanks so `follow` lands on the last real output line.
+    tmux capture-pane -ept "$target" -p 2>/dev/null \
+      | awk 'NF { last = NR } { lines[NR] = $0 } END { for (i = 1; i <= last; i++) print lines[i] }'
   else
     [[ "$target" == "~"* ]] && target="${HOME}${target#\~}"
     command -v cygpath >/dev/null 2>&1 && [[ "$target" =~ ^[A-Za-z]:[/\\] ]] && target=$(cygpath -u "$target")
@@ -164,14 +167,15 @@ case "${1:-pick}" in
     choice=$(FZF_DEFAULT_COMMAND="$SEED_CMD" fzf --ansi --reverse --prompt='tmux> ' \
       --bind "start:reload($TMUX_CMD)" \
       --preview "bash $SESH_SCRIPT preview {}" \
-      --preview-window='right,50%,border-left,hidden' \
+      --preview-window='right,50%,border-left,hidden,follow' \
       --bind "ctrl-p:change-preview(bash $SESH_SCRIPT preview {})+toggle-preview" \
       --bind "?:change-preview(bash $SESH_SCRIPT help)+toggle-preview" \
       --bind "ctrl-t:change-prompt(tmux> )+reload($TMUX_CMD)" \
       --bind "ctrl-x:change-prompt(dirs> )+reload($ZOX_CMD)" \
       --bind "ctrl-a:change-prompt(all>  )+reload($ALL_CMD)" \
       --bind "alt-w:change-prompt(tree> )+reload(bash $SESH_SCRIPT list-worktrees {})" \
-      --bind "ctrl-d:execute-silent(bash $SESH_SCRIPT kill {})+reload($TMUX_CMD)")
+      --bind "ctrl-d:execute-silent(bash $SESH_SCRIPT kill {})+reload($TMUX_CMD)" \
+      --bind 'alt-u:preview-half-page-up,alt-d:preview-half-page-down')
     connect "$choice"
     ;;
 esac
