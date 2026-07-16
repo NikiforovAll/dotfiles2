@@ -4,6 +4,8 @@ set -euo pipefail
 HOME_UNIX="$HOME"
 HOME_WIN=$(command -v cygpath >/dev/null 2>&1 && cygpath -m "$HOME" || echo "$HOME")
 
+CACHE_DIR="$HOME/.tmux/cache"
+
 sanitize() { printf '%s' "$1" | tr ':.' '__'; }
 
 strip_marker() { sed -E 's/^(\* |  )//'; }
@@ -21,6 +23,28 @@ list_zoxide() {
 
 list() {
   { list_tmux; list_zoxide; } | awk 'NF && !seen[$0]++'
+}
+
+# Pre-built lists let the picker paint instantly; a start:reload swaps in live
+# data right after, so staleness only lasts a few frames.
+refresh() {
+  mkdir -p "$CACHE_DIR"
+  # Debounce: resurrect restore fires session-created per restored session,
+  # spawning N concurrent refreshes — expensive forks on MSYS2 (see the
+  # continuum/Winsock note in .tmux.conf).
+  local last now
+  last=$(stat -c %Y "$CACHE_DIR/all.list" 2>/dev/null || echo 0)
+  now=$(date +%s)
+  (( now - last < 2 )) && return 0
+  # mv can hit a Windows sharing violation if fzf holds the file open;
+  # drop the temp file rather than leak it.
+  local tmp
+  tmp=$(mktemp "$CACHE_DIR/.tmp.XXXXXX")
+  list_tmux > "$tmp" 2>/dev/null || true
+  mv -f "$tmp" "$CACHE_DIR/tmux.list" 2>/dev/null || rm -f "$tmp"
+  tmp=$(mktemp "$CACHE_DIR/.tmp.XXXXXX")
+  list > "$tmp" 2>/dev/null || true
+  mv -f "$tmp" "$CACHE_DIR/all.list" 2>/dev/null || rm -f "$tmp"
 }
 
 connect() {
@@ -129,12 +153,16 @@ case "${1:-pick}" in
     [[ -n "$name" ]] && tmux kill-session -t "$name" 2>/dev/null
     ;;
   connect) shift; connect "${1:-}" ;;
+  refresh) refresh ;;
   pick)
     export SESH_SCRIPT="$0"
     TMUX_CMD="tmux list-sessions -F '#{?session_attached,* ,  }#{session_name}' 2>/dev/null | sort -k1,1r -k2"
     ZOX_CMD="zoxide query -l 2>/dev/null | tr '\\\\' '/' | sed -e 's|^${HOME_WIN}|~|' -e 's|^${HOME_UNIX}|~|'"
-    ALL_CMD="{ ${TMUX_CMD}; ${ZOX_CMD}; } | awk 'NF && !seen[\$0]++'"
-    choice=$(FZF_DEFAULT_COMMAND="$TMUX_CMD" fzf --ansi --reverse --prompt='tmux> ' \
+    ALL_CMD="[ -s '$CACHE_DIR/all.list' ] && cat '$CACHE_DIR/all.list' || { ${TMUX_CMD}; ${ZOX_CMD}; } | awk 'NF && !seen[\$0]++'"
+    SEED_CMD="[ -s '$CACHE_DIR/tmux.list' ] && cat '$CACHE_DIR/tmux.list' || ${TMUX_CMD}"
+    (bash "$0" refresh >/dev/null 2>&1 &)
+    choice=$(FZF_DEFAULT_COMMAND="$SEED_CMD" fzf --ansi --reverse --prompt='tmux> ' \
+      --bind "start:reload($TMUX_CMD)" \
       --preview "bash $SESH_SCRIPT preview {}" \
       --preview-window='right,50%,border-left,hidden' \
       --bind "ctrl-p:change-preview(bash $SESH_SCRIPT preview {})+toggle-preview" \
