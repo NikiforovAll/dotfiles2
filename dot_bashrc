@@ -36,6 +36,7 @@ alias n=npm
 alias cc=claude
 alias ccf='claude --fork-session'
 alias ccr='claude --resume'
+alias cco='claude --agent orchestrator'
 alias oc='safe_tui opencode'
 alias co='copilot'
 alias oce='OPENCODE_EXPERIMENTAL_PLAN_MODE=1 safe_tui opencode'
