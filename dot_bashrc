@@ -192,20 +192,53 @@ function fzfp() {
 alias sch='scratch'
 
 sui() {
-    local root="${1:-$PWD}" names name
-    # Drain the native producers (bun/scratch, jq) FULLY before launching fzf.
-    # Piping Windows-native procs straight into fzf on Git Bash leaks a console
-    # handle down the chain and fzf can't own the tty for keyboard input. Feeding
-    # fzf from the printf builtin (after the procs have exited) is the clean case.
-    names=$(scratch ls --dir "$root" --json | jq -r '.pads | sort_by(.updated) | reverse | .[].name' | tr -d '\r')
-    [[ -z "$names" ]] && return 0
-    # fzf previews are lazy: the preview runs only for the focused item and is
-    # cached per item. Spawning scratch (bun) here is fine — preview stdout is
-    # captured by fzf and never touches the keyboard tty that nav depends on.
-    name=$(printf '%s\n' "$names" \
-           | fzf --reverse --prompt 'pad> ' \
-                 --preview "scratch ls {} --dir '$root'" \
-                 --preview-window 'right,55%') || return 0
+    local root="${1:-$PWD}" names name out act pad
+    local -a sel
+    # One definition of the pad list, reused on every loop pass.
+    local list="scratch ls --dir '$root' --json | jq -r '.pads | sort_by(.updated) | reverse | .[].name' | tr -d '\r'"
+    local prompt='pad> ' hdr='ENTER open · TAB mark · C-D delete · C-E export · C-Y copy name · C-R reload'
+    # Delete confirms INLINE: the first C-D only repaints prompt+header (armed state
+    # lives in $FZF_PROMPT, which fzf exports to transform), the second one accepts.
+    # ESC disarms instead of quitting while armed.
+    local arm_prompt='delete? C-D again > ' arm_hdr='!! C-D deletes the selected pad(s) for good · ESC to cancel'
+    # The pad names never pass through a shell string — fzf print()s a tag and bash
+    # reads the selection as lines — so names with spaces/& survive intact.
+    local d_bind="ctrl-d:transform:[[ \$FZF_PROMPT == '$prompt' ]] && echo 'change-prompt($arm_prompt)+change-header($arm_hdr)' || echo 'print(:delete)+accept'"
+    local e_bind="esc:transform:[[ \$FZF_PROMPT == '$prompt' ]] && echo abort || echo 'change-prompt($prompt)+change-header($hdr)'"
+    while :; do
+        # Drain the native producers (bun/scratch, jq) FULLY before launching fzf.
+        # Piping Windows-native procs straight into fzf on Git Bash leaks a console
+        # handle down the chain and fzf can't own the tty for keyboard input. Feeding
+        # fzf from the printf builtin (after the procs have exited) is the clean case.
+        names=$(eval "$list")
+        [[ -z "$names" ]] && { echo "no pads under $root"; return 0; }
+        # fzf previews are lazy: the preview runs only for the focused item and is
+        # cached per item. Spawning scratch (bun) here is fine — preview stdout is
+        # captured by fzf and never touches the keyboard tty that nav depends on.
+        out=$(printf '%s\n' "$names" \
+              | fzf --reverse --prompt "$prompt" --multi \
+                    --color header:italic \
+                    --header "$hdr" \
+                    --preview "scratch ls {} --dir '$root'" \
+                    --preview-window 'right,55%' \
+                    --bind "ctrl-y:execute-silent(echo -n {} | clip)" \
+                    --bind "ctrl-r:reload($list)" \
+                    --bind "ctrl-e:print(:export)+accept" \
+                    --bind "$d_bind" \
+                    --bind "$e_bind") || return 0
+        # print() emits a ":<action>" line ahead of the selection; a bare ENTER emits
+        # the selection alone.
+        act=''
+        [[ $out == :* ]] && { act=${out%%$'\n'*}; out=${out#*$'\n'}; }
+        mapfile -t sel < <(printf '%s' "$out")
+        case "$act" in
+            :delete) for pad in "${sel[@]}"; do scratch rm "$pad" --dir "$root" --force; done; continue ;;
+            :export) for pad in "${sel[@]}"; do scratch export "$pad" --dir "$root"; done; continue ;;
+        esac
+        break
+    done
+    name=${sel[0]}
+    [[ -z "$name" ]] && return 0
     # scratch ui is a native Windows exe that opens a glimpse window. Backgrounding it
     # with `& ; disown` is doubly wrong: (1) disown only suppresses bash's SIGHUP — the
     # process stays bound to the Windows console and dies when the terminal/tmux pane
