@@ -41,7 +41,9 @@ capture() {
 
 # code's Windows shim has flaky exit codes (e.g. when forwarding to a running
 # instance) — launch detached and ignore its status so the binding never errors.
-launch_code() { (code "$@" >/dev/null 2>&1 &) || true; }
+# Detach stdin as well as stdout/stderr: display-popup only closes once the
+# popup pty is fully released, and code's shim would otherwise keep holding it.
+launch_code() { (nohup code "$@" </dev/null >/dev/null 2>&1 &) || true; }
 
 open() {
   local file
