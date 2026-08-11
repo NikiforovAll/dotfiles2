@@ -175,7 +175,7 @@ case "${1:-pick}" in
       --bind "ctrl-a:change-prompt(all>  )+reload($ALL_CMD)" \
       --bind "alt-w:change-prompt(tree> )+reload(bash $SESH_SCRIPT list-worktrees {})" \
       --bind "ctrl-d:execute-silent(bash $SESH_SCRIPT kill {})+reload($TMUX_CMD)" \
-      --bind 'alt-u:preview-half-page-up,alt-d:preview-half-page-down')
+      --bind 'alt-u:preview-half-page-up,alt-d:preview-half-page-down') || exit 0
     connect "$choice"
     ;;
 esac

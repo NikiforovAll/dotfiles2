@@ -41,9 +41,12 @@ capture() {
 
 # code's Windows shim has flaky exit codes (e.g. when forwarding to a running
 # instance) — launch detached and ignore its status so the binding never errors.
-# Detach stdin as well as stdout/stderr: display-popup only closes once the
-# popup pty is fully released, and code's shim would otherwise keep holding it.
+# Redirecting fds is not enough: called from inside a display-popup this left an
+# empty overlay on screen, so never call it from a popup (see pick).
 launch_code() { (nohup code "$@" </dev/null >/dev/null 2>&1 &) || true; }
+
+# Entry point for the popup: reparents the editor launch onto the tmux server.
+open_file() { launch_code --goto "${1:-}"; }
 
 open() {
   local file
@@ -54,31 +57,32 @@ open() {
 
 preview() {
   local f="$NOTES_DIR/${1:-}"
-  [[ -f "$f" ]] && bat --color=always --style=plain "$f" 2>/dev/null || cat "$f" 2>/dev/null || echo "(no preview)"
+  # if/else, not && ||: a failing bat must not fall through to an unstyled cat.
+  if [[ -f "$f" ]]; then
+    bat --color=always --style=plain "$f" 2>/dev/null || cat "$f"
+  else
+    echo "(no preview)"
+  fi
 }
 
-# fzf over all project notes; Enter opens in VS Code, Ctrl-r greps note contents.
+# fzf over all project notes, newest first; Enter opens in VS Code.
 pick() {
   export NOTES_SCRIPT="$0"
   mkdir -p "$NOTES_DIR"
   LIST_CMD="ls -t '$NOTES_DIR' 2>/dev/null | grep '\\.md$'"
-  GREP_CMD="rg --no-heading --line-number --color=always -S {q} '$NOTES_DIR' 2>/dev/null | sed 's|^.*[/\\\\]||'"
-  choice=$(FZF_DEFAULT_COMMAND="$LIST_CMD" fzf --ansi --reverse --prompt='notes> ' \
-    --preview "bash $NOTES_SCRIPT preview {1}" \
-    --preview-window='right,60%,border-left' \
-    --delimiter=: --with-nth=1 \
-    --bind "ctrl-r:change-prompt(grep> )+reload:sleep 0.1; $GREP_CMD" \
-    --bind "change:transform:[[ \$FZF_PROMPT == grep* ]] && echo \"reload:sleep 0.1; $GREP_CMD\"" \
-    --bind "ctrl-f:change-prompt(notes> )+reload($LIST_CMD)") || exit 0
+  choice=$(FZF_DEFAULT_COMMAND="$LIST_CMD" fzf --reverse --prompt='notes> ' \
+    --preview "bash $NOTES_SCRIPT preview {}" \
+    --preview-window='right,60%,border-left') || exit 0
   [[ -z "$choice" ]] && exit 0
-  file="$NOTES_DIR/${choice%%:*}"
-  line=$(printf '%s' "$choice" | awk -F: 'NF>1 && $2 ~ /^[0-9]+$/ {print $2}')
-  launch_code --goto "$(winpath "$file")${line:+:$line}"
+  # Launching the editor from inside the popup left the overlay hanging on the
+  # screen; routing through the server keeps it off the popup entirely.
+  tmux run-shell -b "bash '$NOTES_SCRIPT' open-file '$(winpath "$NOTES_DIR/$choice")'"
 }
 
 case "${1:-pick}" in
   capture) shift; capture "${1:-}" ;;
   open) open ;;
+  open-file) shift; open_file "${1:-}" ;;
   preview) shift; preview "${1:-}" ;;
   pick) pick ;;
 esac
