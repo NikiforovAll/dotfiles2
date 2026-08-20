@@ -5,13 +5,15 @@
       {
         "id": "744797ac-3d98-431f-9b23-ab9160640a87",
         "type": "session-clock",
-        "backgroundColor": "bgYellow"
+        "backgroundColor": "bgYellow",
+        "rawValue": false
       },
       {
         "id": "1",
         "type": "model",
         "color": "cyan",
-        "rawValue": true
+        "rawValue": true,
+        "merge": true
       },
       {
         "id": "2ab9d864-098d-4da7-b0c2-17ca76463e61",
@@ -20,9 +22,21 @@
         "rawValue": true
       },
       {
+        "id": "a8fa3721-4aca-4761-8cb0-88f3236506e0",
+        "type": "output-style",
+        "backgroundColor": "bgBlue",
+        "rawValue": true
+      },
+      {
         "id": "3",
         "type": "context-length",
         "color": "brightBlack"
+      },
+      {
+        "id": "17c33e4d-25d5-49a9-83da-545960f66ea6",
+        "type": "git-worktree",
+        "backgroundColor": "bgCyan",
+        "rawValue": true
       },
       {
         "id": "5",
