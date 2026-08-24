@@ -56,6 +56,17 @@
         "metadata": {
           "fishStyle": "true"
         }
+      },
+      {
+        "id": "d5aad097-6ecc-48ac-88a8-976f036b5acd",
+        "type": "flex-separator",
+        "backgroundColor": "bgBrightMagenta"
+      },
+      {
+        "id": "969c98d7-ec9b-4f8e-bd62-52ec86a90039",
+        "type": "claude-session-id",
+        "backgroundColor": "bgBrightRed",
+        "rawValue": false
       }
     ],
     [],
