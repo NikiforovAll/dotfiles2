@@ -4,6 +4,8 @@
 export XDG_CONFIG_HOME="$HOME/.config"
 export MSYS=winsymlinks:nativestrict
 export PYTHONUTF8=1
+# Git Bash sed rewrites CRLF to LF in text mode; -b keeps the file's line endings.
+sed() { command sed -b "$@"; }
 export EDITOR="code"
 export VISUAL="code"
 
@@ -316,30 +318,93 @@ PROMPT_COMMAND='PS1="\[\e[36m\]\W\[\e[0m\]$(__git_branch)\n\[\e[92m\]❯\[\e[0m\
 echo -ne "\033]0;$(basename "$PWD")\007"
 
 # azt — switch Azure CLI between profiles via isolated config dirs (convention-based).
-# Convention: profile <name> lives in ~/.azure-<name>; 'home' (or no arg) = default ~/.azure.
+# Convention: profile <name> lives in ~/.azure-<name>; 'home' = default ~/.azure.
 # Each profile keeps its own token cache + active subscription (no cross-contamination).
-# Create a new profile just by switching to it and logging in — nothing to hardcode:
-#   azt work && az login --use-device-code [--allow-no-subscriptions]
+# A dir counts as a profile only once it has azureProfile.json, so unrelated
+# ~/.azure-* dirs (e.g. .azure-functions-core-tools) never show up.
 # Usage:
-#   azt          -> show current profile
-#   azt ls       -> list existing profiles
-#   azt home     -> default ~/.azure (current EPAM login)
-#   azt <name>   -> switch to ~/.azure-<name> (creates on first login)
-azt() {
-  case "$1" in
-    "")
-      local cur="${AZURE_CONFIG_DIR##*/.azure-}"
-      [ -z "$AZURE_CONFIG_DIR" ] && cur="home"
-      echo "active: $cur  (${AZURE_CONFIG_DIR:-$HOME/.azure})"; return ;;
-    ls)
-      echo "home  ($HOME/.azure)"
-      for d in "$HOME"/.azure-*/; do
-        [ -d "$d" ] && echo "${d%/}" | sed "s|$HOME/.azure-|  |"
-      done; return ;;
-    home) unset AZURE_CONFIG_DIR ;;
-    *)    export AZURE_CONFIG_DIR="$HOME/.azure-$1" ;;
-  esac
-  echo "profile -> ${1:-home}  (${AZURE_CONFIG_DIR:-$HOME/.azure})"
+#   azt              -> fzf picker over existing profiles
+#   azt <name>       -> switch to an existing profile
+#   azt new <name>   -> create + switch (then: az login --use-device-code)
+#   azt drop [name]  -> delete a profile dir (fzf picker when name is omitted)
+#   azt ls           -> list profiles
+#   azt current      -> show active profile
+_azt_dir() { [ "$1" = home ] && echo "$HOME/.azure" || echo "$HOME/.azure-$1"; }
+
+_azt_list() {
+  echo home
+  local d n
+  for d in "$HOME"/.azure-*/; do
+    [ -f "$d/azureProfile.json" ] || continue
+    n=${d%/}; echo "${n#$HOME/.azure-}"
+  done
+}
+
+_azt_info() {
+  local d f
+  d=$(_azt_dir "$1"); f="$d/azureProfile.json"
+  echo "dir: $d"
+  if [ -f "$f" ]; then
+    sed '1s/^\xef\xbb\xbf//' "$f" | jq -r '.subscriptions[]? | select(.isDefault) | "user:   \(.user.name)\nsub:    \(.name)\ntenant: \(.tenantId)"' 2>/dev/null
+  else
+    echo "(not logged in yet)"
+  fi
+}
+export -f _azt_dir _azt_info
+
+_azt_pick() {
+  _azt_list | fzf --height=40% --reverse --prompt="$1 " \
+    --preview 'bash -c "_azt_info {}"' --preview-window=right,50%
+}
+
+_azt_use() {
+  if [ "$1" = home ]; then unset AZURE_CONFIG_DIR; else export AZURE_CONFIG_DIR="$HOME/.azure-$1"; fi
+  echo "profile -> $1  (${AZURE_CONFIG_DIR:-$HOME/.azure})"
   az account show --query '{tenant:tenantId, user:user.name, sub:name}' -o table 2>/dev/null \
     || echo "(not logged in here yet -> run: az login --use-device-code --allow-no-subscriptions)"
+}
+
+azt() {
+  local cur name
+  case "$1" in
+    -h|--help|help)
+      sed -n '/^# azt — switch/,/^#   azt current/p' "$HOME/.bashrc" | sed 's/^# \{0,1\}//'; return ;;
+    current)
+      cur="${AZURE_CONFIG_DIR##*/.azure-}"; [ -z "$AZURE_CONFIG_DIR" ] && cur=home
+      echo "active: $cur  (${AZURE_CONFIG_DIR:-$HOME/.azure})"; return ;;
+    ls)
+      _azt_list | while read -r name; do
+        printf '%s\t%s\n' "$name" "$(_azt_dir "$name")"
+      done | column -t; return ;;
+    new)
+      name="$2"
+      [ -z "$name" ] && { echo "azt new <name>" >&2; return 2; }
+      [ "$name" = home ] && { echo "azt: 'home' already exists" >&2; return 2; }
+      mkdir -p "$HOME/.azure-$name"
+      _azt_use "$name"; return ;;
+    drop)
+      name="$2"
+      [ -z "$name" ] && name=$(_azt_pick "drop>")
+      [ -z "$name" ] && return 1
+      [ "$name" = home ] && { echo "azt: refusing to drop 'home'" >&2; return 2; }
+      local d; d=$(_azt_dir "$name")
+      [ -d "$d" ] || { echo "azt: no such profile: $name" >&2; return 1; }
+      read -r -p "delete $d ? [y/N] " REPLY
+      case "$REPLY" in
+        y|Y)
+          rm -rf "$d" && echo "dropped $name"
+          [ "$AZURE_CONFIG_DIR" = "$d" ] && { unset AZURE_CONFIG_DIR; echo "profile -> home"; } ;;
+        *) echo "aborted" ;;
+      esac; return ;;
+    "")
+      name=$(_azt_pick "azt>")
+      [ -z "$name" ] && return 1
+      _azt_use "$name"; return ;;
+    *)
+      name="$1"
+      if [ "$name" != home ] && [ ! -d "$HOME/.azure-$name" ]; then
+        echo "azt: no such profile: $name  (create it with: azt new $name)" >&2; return 1
+      fi
+      _azt_use "$name"; return ;;
+  esac
 }
