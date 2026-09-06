@@ -317,6 +317,107 @@ PROMPT_COMMAND='PS1="\[\e[36m\]\W\[\e[0m\]$(__git_branch)\n\[\e[92m\]❯\[\e[0m\
 # Set terminal title to current directory on load
 echo -ne "\033]0;$(basename "$PWD")\007"
 
+# cct — switch Claude Code between isolated config dirs (convention-based).
+# Convention: dir <name> lives in ~/.claude-<name>; 'home' = default ~/.claude.
+# Each one keeps its own login, server-managed settings cache and consent record,
+# which is the point: an org's cached policy cannot reach a session for another org.
+# Not to be confused with ANTHROPIC_PROFILE — that holds Console/WIF credentials and
+# cannot store a claude.ai Team seat, which is why this uses CLAUDE_CONFIG_DIR.
+# A dir counts only once it holds a .cct-dir marker, so unrelated ~/.claude-* dirs
+# (.claude-monitor, .claude-swap-backup) never show up.
+# Isolation verified on 2.1.263 for .credentials.json, remote-settings.json,
+# remote-settings-consent.json and .claude.json — all four move with the config dir.
+# Caveat: skills/agents/commands/plugins are NOT shared until junctions are set up.
+# Usage:
+#   cct              -> fzf picker over existing dirs
+#   cct <name>       -> switch to an existing dir
+#   cct new <name>   -> create + switch (then log in with: claude)
+#   cct drop [name]  -> delete a config dir (fzf picker when name is omitted)
+#   cct ls           -> list config dirs
+#   cct current      -> show active config dir
+_cct_dir() { [ "$1" = home ] && echo "$HOME/.claude" || echo "$HOME/.claude-$1"; }
+
+_cct_list() {
+  echo home
+  local d n
+  for d in "$HOME"/.claude-*/; do
+    [ -f "$d/.cct-dir" ] || continue
+    n=${d%/}; echo "${n#$HOME/.claude-}"
+  done
+}
+
+# Presence only — never prints .credentials.json or the OTLP headers.
+_cct_info() {
+  local d
+  d=$(_cct_dir "$1")
+  echo "dir: $d"
+  [ -f "$d/.credentials.json" ] && echo "login:   present" || echo "login:   (not logged in yet)"
+  if [ -f "$d/remote-settings.json" ]; then
+    jq -r 'if (.env // {}) == {} then "policy:  delivered, empty" else "policy:  " + ((.env | keys) | join(", ")) end' \
+      "$d/remote-settings.json" 2>/dev/null || echo "policy:  (unreadable)"
+  else
+    echo "policy:  none fetched"
+  fi
+  [ -f "$d/remote-settings-consent.json" ] && echo "consent: recorded" || echo "consent: none"
+}
+export -f _cct_dir _cct_info
+
+_cct_pick() {
+  _cct_list | fzf --height=40% --reverse --prompt="$1 " \
+    --preview 'bash -c "_cct_info {}"' --preview-window=right,50%
+}
+
+_cct_use() {
+  if [ "$1" = home ]; then unset CLAUDE_CONFIG_DIR; else export CLAUDE_CONFIG_DIR="$HOME/.claude-$1"; fi
+  echo "claude config dir -> $1  (${CLAUDE_CONFIG_DIR:-$HOME/.claude})"
+  _cct_info "$1" | tail -n +2
+}
+
+cct() {
+  local cur name
+  case "$1" in
+    -h|--help|help)
+      sed -n '/^# cct — switch/,/^#   cct current/p' "$HOME/.bashrc" | sed 's/^# \{0,1\}//'; return ;;
+    current)
+      cur="${CLAUDE_CONFIG_DIR##*/.claude-}"; [ -z "$CLAUDE_CONFIG_DIR" ] && cur=home
+      echo "active: $cur  (${CLAUDE_CONFIG_DIR:-$HOME/.claude})"; return ;;
+    ls)
+      _cct_list | while read -r name; do
+        printf '%s\t%s\n' "$name" "$(_cct_dir "$name")"
+      done | column -t; return ;;
+    new)
+      name="$2"
+      [ -z "$name" ] && { echo "cct new <name>" >&2; return 2; }
+      [ "$name" = home ] && { echo "cct: 'home' already exists" >&2; return 2; }
+      mkdir -p "$HOME/.claude-$name" && printf '%s\n' "$name" > "$HOME/.claude-$name/.cct-dir"
+      _cct_use "$name"; return ;;
+    drop)
+      name="$2"
+      [ -z "$name" ] && name=$(_cct_pick "drop>")
+      [ -z "$name" ] && return 1
+      [ "$name" = home ] && { echo "cct: refusing to drop 'home'" >&2; return 2; }
+      local d; d=$(_cct_dir "$name")
+      [ -d "$d" ] || { echo "cct: no such config dir: $name" >&2; return 1; }
+      read -r -p "delete $d ? [y/N] " REPLY
+      case "$REPLY" in
+        y|Y)
+          rm -rf "$d" && echo "dropped $name"
+          [ "$CLAUDE_CONFIG_DIR" = "$d" ] && { unset CLAUDE_CONFIG_DIR; echo "claude config dir -> home"; } ;;
+        *) echo "aborted" ;;
+      esac; return ;;
+    "")
+      name=$(_cct_pick "cct>")
+      [ -z "$name" ] && return 1
+      _cct_use "$name"; return ;;
+    *)
+      name="$1"
+      if [ "$name" != home ] && [ ! -d "$HOME/.claude-$name" ]; then
+        echo "cct: no such config dir: $name  (create it with: cct new $name)" >&2; return 1
+      fi
+      _cct_use "$name"; return ;;
+  esac
+}
+
 # azt — switch Azure CLI between profiles via isolated config dirs (convention-based).
 # Convention: profile <name> lives in ~/.azure-<name>; 'home' = default ~/.azure.
 # Each profile keeps its own token cache + active subscription (no cross-contamination).
