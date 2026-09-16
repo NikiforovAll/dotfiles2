@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# A wedged server makes a bare `tmux` block with no deadline; see the note in
+# ~/.claude/nikiforovall/tmux/scripts/agents.sh for what that costs. -k because
+# plain SIGTERM does not kill a client blocked in Winsock. Does not reach the
+# commands fzf runs in child shells (TMUX_CMD and friends below) -- shell
+# functions do not cross an exec.
+if command -v timeout >/dev/null 2>&1; then
+  tmux() { command timeout -k 1 "${CLAUDE_TMUX_EXEC_TIMEOUT:-2}" tmux "$@"; }
+fi
+
 HOME_UNIX="$HOME"
 HOME_WIN=$(command -v cygpath >/dev/null 2>&1 && cygpath -m "$HOME" || echo "$HOME")
 
