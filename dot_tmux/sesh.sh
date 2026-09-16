@@ -194,7 +194,16 @@ case "${1:-pick}" in
     VIEW="${2:-narrow}"
     SRC="${3:-tmux}"
     QUERY="${4:-}"
-    TMUX_CMD="tmux list-sessions -F '#{?session_attached,* ,  }#{session_name}' 2>/dev/null | sort -k1,1r -k2"
+    # Spelled out rather than left to the tmux() wrapper above: fzf runs this
+    # string in a shell of its own, and shell functions do not cross an exec.
+    # It is the one command here that reaches tmux without re-entering this
+    # script, and it runs while fzf.exe drives the popup pty -- the exact spot
+    # a wedged server would hang with no deadline.
+    BOUND=""
+    if command -v timeout >/dev/null 2>&1; then
+      BOUND="timeout -k 1 ${CLAUDE_TMUX_EXEC_TIMEOUT:-2} "
+    fi
+    TMUX_CMD="${BOUND}tmux list-sessions -F '#{?session_attached,* ,  }#{session_name}' 2>/dev/null | sort -k1,1r -k2"
     ZOX_CMD="zoxide query -l 2>/dev/null | tr '\\\\' '/' | sed -e 's|^${HOME_WIN}|~|' -e 's|^${HOME_UNIX}|~|'"
     ALL_CMD="[ -s '$CACHE_DIR/all.list' ] && cat '$CACHE_DIR/all.list' || { ${TMUX_CMD}; ${ZOX_CMD}; } | awk 'NF && !seen[\$0]++'"
     SEED_CMD="[ -s '$CACHE_DIR/tmux.list' ] && cat '$CACHE_DIR/tmux.list' || ${TMUX_CMD}"
