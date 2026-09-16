@@ -121,7 +121,7 @@ help() {
   Ctrl-x      zoxide dirs only
   Alt-w       git worktrees of highlighted
   Ctrl-d      kill highlighted session
-  Ctrl-p      toggle preview
+  Ctrl-p      preview (reopens wider)
   Alt-u/d     scroll preview
   ?           toggle this help
   Esc         cancel
@@ -143,6 +143,28 @@ preview() {
   fi
 }
 
+# A popup's geometry is fixed when it opens and tmux cannot resize it, so the
+# preview state is a second, wider popup. The narrow size has to match the one
+# in `bind g` (~/.tmux.conf), which opens the first one.
+POPUP_NARROW='-w 40% -h 35%'
+POPUP_WIDE='-w 65% -h 45%'
+
+# Queue the other state detached and delayed: tmux discards a display-popup
+# issued while a popup is still up (it answers rc=0 and the command never
+# runs), and this one is issued from inside the popup that is about to close.
+# The prompt is the only record of which list the user was in, so it rides
+# along and maps back to a source.
+reopen() {
+  local view="$1" prompt="${2:-}" query="${3:-}" src geom="$POPUP_NARROW"
+  [[ "$view" == wide ]] && geom="$POPUP_WIDE"
+  case "$prompt" in
+    dirs*) src=dirs ;;
+    all*) src=all ;;
+    *) src=tmux ;;
+  esac
+  tmux run-shell -b "sleep 0.25; tmux display-popup -E $geom \"bash '$0' pick $view $src '$query'\""
+}
+
 case "${1:-pick}" in
   list) list ;;
   list-tmux) list_tmux ;;
@@ -157,18 +179,29 @@ case "${1:-pick}" in
     ;;
   connect) shift; connect "${1:-}" ;;
   refresh) refresh ;;
+  reopen) shift; reopen "${1:?view required}" "${2:-}" "${3:-}" ;;
   pick)
     export SESH_SCRIPT="$0"
+    VIEW="${2:-narrow}"
+    SRC="${3:-tmux}"
+    QUERY="${4:-}"
     TMUX_CMD="tmux list-sessions -F '#{?session_attached,* ,  }#{session_name}' 2>/dev/null | sort -k1,1r -k2"
     ZOX_CMD="zoxide query -l 2>/dev/null | tr '\\\\' '/' | sed -e 's|^${HOME_WIN}|~|' -e 's|^${HOME_UNIX}|~|'"
     ALL_CMD="[ -s '$CACHE_DIR/all.list' ] && cat '$CACHE_DIR/all.list' || { ${TMUX_CMD}; ${ZOX_CMD}; } | awk 'NF && !seen[\$0]++'"
     SEED_CMD="[ -s '$CACHE_DIR/tmux.list' ] && cat '$CACHE_DIR/tmux.list' || ${TMUX_CMD}"
+    case "$SRC" in
+      dirs) PROMPT='dirs> '; START="$ZOX_CMD"; SEED_CMD="$ZOX_CMD" ;;
+      all) PROMPT='all>  '; START="$ALL_CMD"; SEED_CMD="$ALL_CMD" ;;
+      *) PROMPT='tmux> '; START="$TMUX_CMD" ;;
+    esac
+    if [[ "$VIEW" == wide ]]; then HIDDEN=nohidden; TOGGLE=narrow; else HIDDEN=hidden; TOGGLE=wide; fi
     (bash "$0" refresh >/dev/null 2>&1 &)
-    choice=$(FZF_DEFAULT_COMMAND="$SEED_CMD" fzf --ansi --reverse --prompt='tmux> ' \
-      --bind "start:reload($TMUX_CMD)" \
+    choice=$(FZF_DEFAULT_COMMAND="$SEED_CMD" fzf --ansi --reverse --prompt="$PROMPT" \
+      --query "$QUERY" \
+      --bind "start:reload($START)" \
       --preview "bash $SESH_SCRIPT preview {}" \
-      --preview-window='right,50%,border-left,hidden,follow' \
-      --bind "ctrl-p:change-preview(bash $SESH_SCRIPT preview {})+toggle-preview" \
+      --preview-window="right,60%,border-left,$HIDDEN,follow" \
+      --bind "ctrl-p:execute-silent(bash $SESH_SCRIPT reopen $TOGGLE \"\$FZF_PROMPT\" {q})+abort" \
       --bind "?:change-preview(bash $SESH_SCRIPT help)+toggle-preview" \
       --bind "ctrl-t:change-prompt(tmux> )+reload($TMUX_CMD)" \
       --bind "ctrl-x:change-prompt(dirs> )+reload($ZOX_CMD)" \
