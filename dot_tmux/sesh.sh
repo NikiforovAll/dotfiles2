@@ -95,7 +95,14 @@ connect() {
     TMUX="" tmux new-session -ds "$name" -c "$path"
   fi
   if [[ -n "${TMUX:-}" ]]; then
-    tmux switch-client -t "$name"
+    # switch-client needs to be told which client to move. A command tmux runs
+    # for a display-popup has no current client of its own, so a bare
+    # switch-client fails with "no current client" and the popup just closes
+    # without switching. display-message still resolves the client that opened
+    # us. `prefix s` is unaffected because choose-tree runs on the client.
+    local client
+    client=$(tmux display-message -p '#{client_name}' 2>/dev/null || true)
+    tmux switch-client ${client:+-c "$client"} -t "$name"
   else
     tmux attach -t "$name"
   fi
