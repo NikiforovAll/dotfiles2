@@ -52,7 +52,7 @@ refresh() {
   # continuum/Winsock note in .tmux.conf).
   local last now
   last=$(stat -c %Y "$CACHE_DIR/all.list" 2>/dev/null || echo 0)
-  now=$(date +%s)
+  now=$EPOCHSECONDS
   (( now - last < 2 )) && return 0
   # mv can hit a Windows sharing violation if fzf holds the file open;
   # drop the temp file rather than leak it.
