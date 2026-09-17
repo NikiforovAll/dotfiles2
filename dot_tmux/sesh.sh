@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# tmux runs a display-popup through its job machinery, which hands the command
+# TERM=dumb. fzf 0.73 paints through terminfo, so under a dumb terminal it draws
+# an empty popup while still reading keys -- the popup looks hung and even Esc
+# appears dead. screen-256color is default-terminal in ~/.tmux.conf, which is
+# what a real pane in this server gets.
+if [[ "${TERM:-dumb}" == dumb ]]; then
+  export TERM=screen-256color
+fi
+
 # A wedged server makes a bare `tmux` block with no deadline; see the note in
 # ~/.claude/nikiforovall/tmux/scripts/agents.sh for what that costs. -k because
 # plain SIGTERM does not kill a client blocked in Winsock. Does not reach the

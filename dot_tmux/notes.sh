@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# tmux hands a display-popup command TERM=dumb, and fzf 0.73 paints through
+# terminfo, so a dumb terminal draws an empty popup. Full note in sesh.sh.
+if [[ "${TERM:-dumb}" == dumb ]]; then
+  export TERM=screen-256color
+fi
+
 # Bound every tmux call: a wedged server makes a bare `tmux` block with no
 # deadline. See agents.sh in the tmux@nikiforovall plugin for the full note.
 if command -v timeout >/dev/null 2>&1; then
