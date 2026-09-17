@@ -136,11 +136,11 @@ help() {
   Enter       connect (switch or create session)
   Ctrl-a      show all (tmux + zoxide)
   Ctrl-t      tmux sessions only
-  Ctrl-x      zoxide dirs only
+  Ctrl-z      zoxide dirs only
   Alt-w       git worktrees of highlighted
-  Ctrl-d      kill highlighted session
+  Ctrl-x      kill highlighted session
   Ctrl-p      preview (reopens wider)
-  Alt-u/d     scroll preview
+  Ctrl-u/d    scroll preview
   ?           toggle this help
   Esc         cancel
 EOF
@@ -231,11 +231,11 @@ case "${1:-pick}" in
       --bind "ctrl-p:execute-silent(bash $SESH_SCRIPT reopen $TOGGLE \"\$FZF_PROMPT\" {q})+abort" \
       --bind "?:change-preview(bash $SESH_SCRIPT help)+toggle-preview" \
       --bind "ctrl-t:change-prompt(tmux> )+reload($TMUX_CMD)" \
-      --bind "ctrl-x:change-prompt(dirs> )+reload($ZOX_CMD)" \
+      --bind "ctrl-z:change-prompt(dirs> )+reload($ZOX_CMD)" \
       --bind "ctrl-a:change-prompt(all>  )+reload($ALL_CMD)" \
       --bind "alt-w:change-prompt(tree> )+reload(bash $SESH_SCRIPT list-worktrees {})" \
-      --bind "ctrl-d:execute-silent(bash $SESH_SCRIPT kill {})+reload($TMUX_CMD)" \
-      --bind 'alt-u:preview-half-page-up,alt-d:preview-half-page-down') || exit 0
+      --bind "ctrl-x:execute-silent(bash $SESH_SCRIPT kill {})+reload($TMUX_CMD)" \
+      --bind 'ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down') || exit 0
     connect "$choice"
     ;;
 esac
