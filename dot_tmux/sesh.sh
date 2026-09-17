@@ -180,14 +180,19 @@ POPUP_WIDE='-w 65% -h 45%'
 # The prompt is the only record of which list the user was in, so it rides
 # along and maps back to a source.
 reopen() {
-  local view="$1" prompt="${2:-}" query="${3:-}" src geom="$POPUP_NARROW"
+  local view="$1" prompt="${2:-}" query="${3:-}" src geom="$POPUP_NARROW" client
   [[ "$view" == wide ]] && geom="$POPUP_WIDE"
   case "$prompt" in
     dirs*) src=dirs ;;
     all*) src=all ;;
     *) src=tmux ;;
   esac
-  tmux run-shell -b "sleep 0.25; tmux display-popup -E $geom \"bash '$0' pick $view $src '$query'\""
+  # A command tmux runs for `run-shell` has no current client, and
+  # display-popup without one fails with rc=1 before the shell command ever
+  # runs -- no popup appears and tmux reports "... returned 1". Resolve the
+  # client here, where $TMUX still names it, and pass it with -c.
+  client=$(tmux display-message -p '#{client_name}' 2>/dev/null || true)
+  tmux run-shell -b "sleep 0.25; tmux display-popup ${client:+-c '$client'} -E $geom \"bash '$0' pick $view $src '$query'\""
 }
 
 case "${1:-pick}" in
