@@ -509,3 +509,44 @@ azt() {
       _azt_use "$name"; return ;;
   esac
 }
+
+# Directory-scoped cct/azt: cd into a tree that ~/.workprofile maps, and this
+# shell picks up that name's ~/.claude-<name> and ~/.azure-<name>; cd out and it
+# drops them again. Scoped rather than global on purpose — one employer's cached
+# policy and token cache have no business in a shell working on anything else.
+#
+# ~/.workprofile is machine-local and deliberately untracked: it pairs an
+# employer's name with a path on this disk, and these dotfiles are public.
+# Its lines are "<path-prefix> <name>"; '#' comments and blanks are skipped.
+#   /c/Users/me/dev/acme   acme
+_workprofile_lookup() {
+  local f="$HOME/.workprofile" prefix name
+  [ -r "$f" ] || return 0
+  while read -r prefix name; do
+    case "$prefix" in ''|'#'*) continue ;; esac
+    [ -z "$name" ] && continue
+    case "$PWD/" in "${prefix%/}"/*) printf '%s\n' "$name"; return 0 ;; esac
+  done < "$f"
+  return 0
+}
+
+# Reacts to the mapped name changing, not to the variables themselves, so an
+# explicit `azt home` inside a mapped tree stands until you leave and come back.
+_workprofile_apply() {
+  local want
+  [ "$PWD" = "$_workprofile_pwd" ] && return 0
+  _workprofile_pwd=$PWD
+  want=$(_workprofile_lookup)
+  [ "$want" = "$_workprofile_active" ] && return 0
+
+  if [ -n "$want" ]; then
+    [ -d "$HOME/.claude-$want" ] && export CLAUDE_CONFIG_DIR="$HOME/.claude-$want"
+    [ -d "$HOME/.azure-$want" ] && export AZURE_CONFIG_DIR="$HOME/.azure-$want"
+  elif [ -n "$_workprofile_active" ]; then
+    unset CLAUDE_CONFIG_DIR AZURE_CONFIG_DIR
+  fi
+  _workprofile_active=$want
+  return 0
+}
+PROMPT_COMMAND="_workprofile_apply;$PROMPT_COMMAND"
+_workprofile_apply
