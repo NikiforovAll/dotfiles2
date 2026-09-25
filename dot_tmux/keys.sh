@@ -35,7 +35,8 @@ agents|prefix A|Claude agent switcher, wide
 notes|prefix N|quick note to ~/notes/<session>.md
 notes|prefix e|open session note in VS Code
 notes|prefix f|browse notes with fzf
-files|prefix y|copy ~/Downloads path(s) to clipboard
+files|prefix y|copy ~/Downloads path(s), 15 recent (Ctrl-a all)
+files|prefix P|scratch pad picker (sui) for pane dir
 copy|PageUp|scroll back (enters copy mode)
 copy|prefix [|enter copy mode
 copy|v / y|copy mode: select / copy

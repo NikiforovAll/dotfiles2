@@ -13,10 +13,14 @@ fi
 
 DOWNLOADS_DIR="${TMUX_DOWNLOADS_DIR:-$HOME/Downloads}"
 cd "$DOWNLOADS_DIR"
+RECENT_CMD='ls -1t | head -n 15'
+ALL_CMD='ls -1t'
 mapfile -t picked < <(
-  ls -1t | fzf --multi --reverse --no-sort \
-    --prompt 'downloads> ' \
-    --header 'Tab: mark · Enter: copy path(s) to clipboard' \
+  eval "$RECENT_CMD" | fzf --multi --reverse --no-sort \
+    --prompt 'recent> ' \
+    --header 'Tab: mark · Enter: copy path(s) · Ctrl-a: all · Ctrl-r: recent 15' \
+    --bind "ctrl-a:change-prompt(all>    )+reload($ALL_CMD)" \
+    --bind "ctrl-r:change-prompt(recent> )+reload($RECENT_CMD)" \
     --preview 'ls -ld -- {}' --preview-window down,1
 ) || exit 0
 
