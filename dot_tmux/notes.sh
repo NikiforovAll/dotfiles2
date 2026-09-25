@@ -67,7 +67,41 @@ open() {
   launch_code "$(winpath "$file")"
 }
 
+help() {
+  cat <<'EOF'
+  Enter       open in VS Code
+  Ctrl-y      copy path
+  Ctrl-o      show in Explorer
+  Ctrl-u/d    scroll preview
+  ?           toggle this help
+EOF
+}
+
+help_toggle() {
+  if [[ "${FZF_PREVIEW_LABEL:-}" == help ]]; then
+    echo 'change-preview-label()+refresh-preview'
+  else
+    echo 'change-preview-label(help)+refresh-preview'
+  fi
+}
+
+# The path goes to PowerShell through an env var, so names with quotes or spaces
+# need no escaping.
+copy_path() {
+  local p
+  p=$(cygpath -w "$NOTES_DIR/${1:-}")
+  printf '%s' "$p" | iconv -f UTF-8 -t UTF-16LE | clip.exe
+  tmux set-buffer -- "$p"
+  tmux display-message "copied: $p"
+}
+
+reveal() {
+  export P; P=$(cygpath -w "$NOTES_DIR/${1:-}")
+  powershell.exe -NoProfile -Command "Start-Process explorer.exe -ArgumentList ('/select,\"' + \$env:P + '\"')"
+}
+
 preview() {
+  [[ "${FZF_PREVIEW_LABEL:-}" == help ]] && { help; return 0; }
   local f="$NOTES_DIR/${1:-}"
   # if/else, not && ||: a failing bat must not fall through to an unstyled cat.
   if [[ -f "$f" ]]; then
@@ -84,7 +118,11 @@ pick() {
   LIST_CMD="ls -t '$NOTES_DIR' 2>/dev/null | grep '\\.md$'"
   choice=$(FZF_DEFAULT_COMMAND="$LIST_CMD" fzf --reverse --prompt='notes> ' \
     --preview "bash $NOTES_SCRIPT preview {}" \
-    --preview-window='right,60%,border-left') || exit 0
+    --preview-window='right,60%,border-left' \
+    --bind "?:transform(bash $NOTES_SCRIPT help-toggle)" \
+    --bind "ctrl-y:execute-silent(bash $NOTES_SCRIPT copy {})+abort" \
+    --bind "ctrl-o:execute-silent(bash $NOTES_SCRIPT reveal {})+abort" \
+    --bind 'ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down') || exit 0
   [[ -z "$choice" ]] && exit 0
   # Launching the editor from inside the popup left the overlay hanging on the
   # screen; routing through the server keeps it off the popup entirely.
@@ -96,5 +134,8 @@ case "${1:-pick}" in
   open) open ;;
   open-file) shift; open_file "${1:-}" ;;
   preview) shift; preview "${1:-}" ;;
+  help-toggle) help_toggle ;;
+  copy) shift; copy_path "${1:-}" ;;
+  reveal) shift; reveal "${1:-}" ;;
   pick) pick ;;
 esac

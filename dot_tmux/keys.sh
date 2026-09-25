@@ -35,8 +35,14 @@ agents|prefix A|Claude agent switcher, wide
 notes|prefix N|quick note to ~/notes/<session>.md
 notes|prefix e|open session note in VS Code
 notes|prefix f|browse notes with fzf
-files|prefix y|copy ~/Downloads path(s), 15 recent (Ctrl-a all)
+files|prefix y|~/Downloads picker, 15 recent (Ctrl-a all)
 files|prefix P|scratch pad picker (sui) for pane dir
+pickers|Enter|open / connect / jump
+pickers|Ctrl-y|copy path (y, P, f)
+pickers|Ctrl-o|show in Explorer (y, P, f)
+pickers|Ctrl-x|delete / kill (g, a, P)
+pickers|Ctrl-u / Ctrl-d|scroll preview
+pickers|?|help for picker keys
 copy|PageUp|scroll back (enters copy mode)
 copy|prefix [|enter copy mode
 copy|v / y|copy mode: select / copy
@@ -45,10 +51,9 @@ copy|prefix ]|paste tmux buffer
 misc|prefix r|reload ~/.tmux.conf
 misc|prefix k|this reference
 misc|prefix ?|all tmux key bindings
-misc|? (in pickers)|help for picker keys
 '
 
 printf '%s\n' "$KEYS" | awk -F'|' 'NF == 3 {
   printf "\033[38;5;244m%-9s\033[0m \033[38;5;109;1m%-22s\033[0m %s\n", $1, $2, $3
 }' | fzf --ansi --exact --no-sort --reverse --prompt 'keys> ' \
-  --header 'type to filter · Esc to close' --bind 'enter:abort' || true
+  --bind 'enter:abort' || true

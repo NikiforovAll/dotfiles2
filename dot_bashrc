@@ -198,15 +198,17 @@ sui() {
     local -a sel
     # One definition of the pad list, reused on every loop pass.
     local list="scratch ls --dir '$root' --json | jq -r '.pads | sort_by(.updated) | reverse | .[].name' | tr -d '\r'"
-    local prompt='pad> ' hdr='ENTER open · TAB mark · C-D delete · C-E export · C-Y copy name · C-R reload'
-    # Delete confirms INLINE: the first C-D only repaints prompt+header (armed state
+    local prompt='pad> '
+    local help_cmd="printf '%s\n' '  Tab         mark pad' '  Enter       open pad' '  Ctrl-y      copy path(s)' '  Ctrl-o      show in Explorer' '  Ctrl-e      export' '  Ctrl-x      delete (press twice)' '  Ctrl-r      reload' '  Ctrl-u/d    scroll preview' '  ?           toggle this help'"
+    local h_bind="?:transform:[[ \$FZF_PREVIEW_LABEL == help ]] && echo 'change-preview-label()+refresh-preview' || echo 'change-preview-label(help)+refresh-preview'"
+    # Delete confirms INLINE: the first C-X only repaints prompt+header (armed state
     # lives in $FZF_PROMPT, which fzf exports to transform), the second one accepts.
     # ESC disarms instead of quitting while armed.
-    local arm_prompt='delete? C-D again > ' arm_hdr='!! C-D deletes the selected pad(s) for good · ESC to cancel'
+    local arm_prompt='delete? C-X again > ' arm_hdr='!! C-X deletes the selected pad(s) for good · ESC to cancel'
     # The pad names never pass through a shell string — fzf print()s a tag and bash
     # reads the selection as lines — so names with spaces/& survive intact.
-    local d_bind="ctrl-d:transform:[[ \$FZF_PROMPT == '$prompt' ]] && echo 'change-prompt($arm_prompt)+change-header($arm_hdr)' || echo 'print(:delete)+accept'"
-    local e_bind="esc:transform:[[ \$FZF_PROMPT == '$prompt' ]] && echo abort || echo 'change-prompt($prompt)+change-header($hdr)'"
+    local d_bind="ctrl-x:transform:[[ \$FZF_PROMPT == '$prompt' ]] && echo 'change-prompt($arm_prompt)+change-header($arm_hdr)' || echo 'print(:delete)+accept'"
+    local e_bind="esc:transform:[[ \$FZF_PROMPT == '$prompt' ]] && echo abort || echo 'change-prompt($prompt)+change-header()'"
     while :; do
         # Drain the native producers (bun/scratch, jq) FULLY before launching fzf.
         # Piping Windows-native procs straight into fzf on Git Bash leaks a console
@@ -220,10 +222,12 @@ sui() {
         out=$(printf '%s\n' "$names" \
               | fzf --reverse --prompt "$prompt" --multi \
                     --color header:italic \
-                    --header "$hdr" \
-                    --preview "scratch ls {} --dir '$root'" \
+                    --preview "[[ \$FZF_PREVIEW_LABEL == help ]] && $help_cmd || scratch ls {} --dir '$root'" \
                     --preview-window 'right,55%' \
-                    --bind "ctrl-y:execute-silent(echo -n {} | clip)" \
+                    --bind "$h_bind" \
+                    --bind 'ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down' \
+                    --bind "ctrl-y:print(:copy)+accept" \
+                    --bind "ctrl-o:print(:reveal)+accept" \
                     --bind "ctrl-r:reload($list)" \
                     --bind "ctrl-e:print(:export)+accept" \
                     --bind "$d_bind" \
@@ -236,6 +240,23 @@ sui() {
         case "$act" in
             :delete) for pad in "${sel[@]}"; do scratch rm "$pad" --dir "$root" --force; done; continue ;;
             :export) for pad in "${sel[@]}"; do scratch export "$pad" --dir "$root"; done; continue ;;
+            :copy|:reveal)
+                local json p; local -a paths=()
+                json=$(scratch ls --dir "$root" --json | tr -d '\r')
+                for pad in "${sel[@]}"; do
+                    p=$(cygpath -w "$root/$(jq -r --arg n "$pad" '.pads[] | select(.name == $n) | .rel' <<<"$json")")
+                    if [[ $act == :reveal ]]; then
+                        P="$p" powershell.exe -NoProfile -Command 'Invoke-Item -LiteralPath $env:P'
+                        continue
+                    fi
+                    [[ "$p" == *' '* ]] && p="\"$p\""
+                    paths+=("$p")
+                done
+                (( ${#paths[@]} )) || return 0
+                # clip reads the console code page; UTF-16LE keeps non-ASCII names intact.
+                printf '%s' "${paths[*]}" | iconv -f UTF-8 -t UTF-16LE | clip
+                echo "copied: ${paths[*]}"
+                return 0 ;;
         esac
         break
     done
