@@ -1,9 +1,17 @@
 # Fix: non-WT terminals (Alacritty from Start Menu, PowerToys Run) inherit only Machine PATH.
-# So append the User PATH from the registry (code, npm, winget). cygpath converts it, because a
-# C:\ entry splits at the colon. Must run before .bashrc (fzf/zoxide). Costs about 50 ms per shell.
+# So append the User PATH entries from the registry (code, npm, winget) that are not on PATH yet.
+# A child of another app (cck's terminal) already has them, and doubling them pushes PATH past
+# cmd.exe's 8191-char limit, where cmd sees no PATH and npx breaks. cygpath converts the entries,
+# because a C:\ entry splits at the colon. Must run before .bashrc (fzf/zoxide). Costs about 50 ms per shell.
 if [[ -z "$WT_SESSION" ]]; then
     user_path=$(reg.exe query 'HKCU\Environment' //v Path 2>/dev/null | sed -n 's/^ *Path *REG_[A-Z_]* *//p' | tr -d '\r')
-    [[ -n "$user_path" ]] && export PATH="$PATH:$(cygpath -u -p "$user_path")"
+    if [[ -n "$user_path" ]]; then
+        IFS=: read -ra user_dirs <<< "$(cygpath -u -p "$user_path")"
+        for d in "${user_dirs[@]}"; do
+            [[ -n "$d" && ":$PATH:" != *":$d:"* && ":$PATH:" != *":${d%/}:"* ]] && PATH="$PATH:$d"
+        done
+        export PATH
+    fi
 fi
 
 if [ -f ~/.bashrc ]; then
@@ -17,5 +25,3 @@ export PATH="$HOME/.aspire/bin:$PATH"
 
 # Run one-off .NET tools (dnx.cmd is not executable in Git Bash)
 alias dnx='dotnet tool exec'
-# Added by @codemieai/code
-export PATH="C:\Users\nikiforovall\AppData\Roaming\npm\bin:$PATH"
