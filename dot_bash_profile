@@ -1,11 +1,9 @@
 # Fix: non-WT terminals (Alacritty from Start Menu, PowerToys Run) inherit only Machine PATH.
-# winget installs shims to User PATH, so add its Links dir explicitly. Must run before .bashrc (fzf/zoxide).
+# So append the User PATH from the registry (code, npm, winget). cygpath converts it, because a
+# C:\ entry splits at the colon. Must run before .bashrc (fzf/zoxide). Costs about 50 ms per shell.
 if [[ -z "$WT_SESSION" ]]; then
-    extra="$LOCALAPPDATA/Microsoft/WinGet/Links"
-    for d in "$LOCALAPPDATA"/Microsoft/WinGet/Packages/{ajeetdsouza.zoxide,junegunn.fzf}_*/; do
-        [[ -d "$d" ]] && extra="$extra:${d%/}"
-    done
-    export PATH="$PATH:$extra"
+    user_path=$(reg.exe query 'HKCU\Environment' //v Path 2>/dev/null | sed -n 's/^ *Path *REG_[A-Z_]* *//p' | tr -d '\r')
+    [[ -n "$user_path" ]] && export PATH="$PATH:$(cygpath -u -p "$user_path")"
 fi
 
 if [ -f ~/.bashrc ]; then

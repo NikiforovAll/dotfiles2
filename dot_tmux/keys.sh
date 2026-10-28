@@ -14,11 +14,7 @@ sessions|prefix G|session picker, opens with preview
 sessions|prefix C|new session: prompt for name and path
 sessions|prefix S|switch to last session
 sessions|prefix X|kill current session
-sessions|prefix @|promote pane to a new session
-sessions|prefix Ctrl-@|promote window to a new session
 sessions|Ctrl-Alt-Left/Right|previous / next session
-sessions|prefix Ctrl-s|save sessions (resurrect)
-sessions|prefix Ctrl-r|restore sessions (resurrect)
 windows|prefix c|new window after current, same dir
 windows|Shift-Left/Right|previous / next window
 windows|Alt-1..9|go to window 1..9
