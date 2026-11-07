@@ -1,4 +1,4 @@
-theme = "gruvbox-dark-medium"
+theme = "terminal"
 mode = "auto"
 watch = true
 line_numbers = true
